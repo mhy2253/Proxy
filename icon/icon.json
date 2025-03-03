@@ -3,12 +3,9 @@
 "description":"Collected By MHY2253.", 
 "icons":
 [
-	{"name":"Clouddrive2_b", "url":"https://github.com/MHY2253/MHY2253/raw/refs/heads/main/icon/image/IMG_3945.jpeg"},
-	{"name":"Clouddrive2_l", "url":"https://github.com/MHY2253/MHY2253/raw/refs/heads/main/icon/image/IMG_3946.png"},
-	{"name":"dropbox", "url":"https://github.com/MHY2253/MHY2253/raw/refs/heads/main/icon/image/IMG_3947.png"},
+	{"name":"Clouddrive2", "url":"https://github.com/MHY2253/MHY2253/raw/refs/heads/main/icon/image/IMG_3945.jpeg"},
 	{"name":"Dropbox", "url":"https://github.com/MHY2253/MHY2253/raw/refs/heads/main/icon/image/IMG_3948.png"},
 	{"name":"115", "url":"https://github.com/MHY2253/MHY2253/blob/main/icon/image/IMG_3949.png"},
-	{"name":"115", "url":"https://github.com/MHY2253/MHY2253/blob/main/icon/image/IMG_3950.png"},
-	{"name":"aliyun", "url":"https://github.com/MHY2253/MHY2253/raw/refs/heads/main/icon/image/IMG_3951.jpeg"},
+	{"name":"aliyun", "url":"https://github.com/MHY2253/MHY2253/raw/refs/heads/main/icon/image/IMG_3951.jpeg"}
 ]
 }
