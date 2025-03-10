@@ -654,6 +654,7 @@ rules:
  - DOMAIN-SUFFIX,sing-box.sagernet.org,proxy
 
 # geodata
+ - GEOSITE,microsoft,DIRECT
  - GEOSITE,tencent,DIRECT
  - GEOSITE,oracle,DIRECT
  - GEOSITE,onedrive,DIRECT
