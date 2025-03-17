@@ -655,7 +655,6 @@ rules:
 
 # geodata
  - GEOSITE,github,proxy
- - GEOSITE,microsoft,DIRECT
  - GEOSITE,tencent,DIRECT
  - GEOSITE,oracle,DIRECT
  - GEOSITE,onedrive,DIRECT
@@ -664,11 +663,9 @@ rules:
  - GEOSITE,apple,DIRECT
  - GEOSITE,cn,DIRECT
  - GEOSITE,tiktok,proxy
- - GEOSITE,tmdb,proxy
  - GEOSITE,x,proxy
  - GEOSITE,youtube,proxy
  - GEOSITE,google,proxy
- - GEOSITE,github,proxy
  - GEOSITE,twitter,proxy
  - GEOSITE,telegram,proxy
  - GEOSITE,cloudflare,DIRECT
