@@ -87,19 +87,19 @@ proxies:
     udp-over-tcp: true
     ip-version: ipv6-prefer
 
-  - name: "tls"
-    type: ss
+  - name: "trojan"
+    type: trojan
     server: linkload.me
-    port: 443
-    cipher: chacha20-ietf-poly1305
-    password: "eNlo@1g@%6gq7H9Y"
-    plugin: shadow-tls
+    password: password
     client-fingerprint: chrome
-    plugin-opts:
-      host: "gateway.icloud.com"
-      password: "JsJeWtjiUyVgh0ooqQ"
-      version: 3 # support 1/2/3
-
+    udp: true
+    sin: linload.me
+    alpn:
+      - h2
+      - http/1.1
+    skip-cert-verify: true
+    
+    
    # 策略组
 
 proxy-groups: 
@@ -111,7 +111,7 @@ proxy-groups:
     tolerance: 50
     proxies:
       - ss
-      - tls
+      - trojan
 
 rules:
  - DOMAIN-SUFFIX,123pan.com,DIRECT
