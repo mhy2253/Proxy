@@ -79,7 +79,7 @@ dns:
 proxies:  
   - name: "ss"
     type: ss
-    server: ss.mhy2253.com
+    server: linkload.uk
     port: 22253
     cipher: chacha20-ietf-poly1305
     password: "eNlo@1g@%6gq7H9Y"
