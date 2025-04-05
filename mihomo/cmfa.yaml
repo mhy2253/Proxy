@@ -90,7 +90,8 @@ proxies:
   - name: "trojan"
     type: trojan
     server: linkload.me
-    password: password
+    port: 443
+    password: xHvse7n9wLy#aBB$
     client-fingerprint: chrome
     udp: true
     sin: linload.me
