@@ -1,8 +1,10 @@
-port: 7890 
-socks-port: 7891 
-mixed-port: 10801 
-redir-port: 7892 
-tproxy-port: 7893
+#port: 7890 #HTTP(S)代理服务器端口
+#socks-port: 7891 #SOCKS5代理端口
+mixed-port: 10801 #混合端口
+#redir-port: 7892 #透明代理端口，用于linux和macos
+
+#Transparent proxy server port for linux(tproxy tcp and toroxy udp)
+#tproxy-port: 7893
 allow-lan: true
 skip-auth-prefixes:
   - 127.0.0.1/8
