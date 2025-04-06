@@ -81,7 +81,7 @@ dns:
 proxies:  
   - name: "ss"
     type: ss
-    server: linkload.uk
+    server: domain.com
     port: 22253
     cipher: chacha20-ietf-poly1305
     password: "eNlo@1g@%6gq7H9Y"
@@ -91,7 +91,7 @@ proxies:
 
   - name: "trojan"
     type: trojan
-    server: linkload.me
+    server: domain.com
     port: 443
     password: xHvse7n9wLy#aBB$
     client-fingerprint: chrome
