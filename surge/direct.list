@@ -668,6 +668,7 @@ DOMAIN-SUFFIX,xn--fiqs8s
 DOMAIN-SUFFIX,xn--55qx5d
 DOMAIN-SUFFIX,xn--io0a7i
 # vps
+IP-CIDR,195.245.229.172/32,no-resolve
 DOMAIN-SUFFIX,linkload.io
 DOMAIN-SUFFIX,linkroad.io
 DOMAIN-SUFFIX,mhy2253.me
