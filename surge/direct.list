@@ -670,7 +670,7 @@ DOMAIN-SUFFIX,xn--io0a7i
 # vps
 IP-CIDR,195.245.229.172/32,no-resolve
 IP-CIDR,168.138.33.223/32,no-resolve
-IP-CIDR6,2603:c023:f:7b25:ae2c:6493:f4b:b245/64,no-resolve
+IP-CIDR6,2603:c023:f:7b25:ae2c:6493:f4b:b245/128,no-resolve
 DOMAIN-SUFFIX,linkload.io
 DOMAIN-SUFFIX,linkroad.io
 DOMAIN-SUFFIX,mhy2253.me
