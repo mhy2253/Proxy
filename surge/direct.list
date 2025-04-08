@@ -666,7 +666,6 @@ USER-AGENT,WeChat*
 # tmdb
 DOMAIN-SUFFIX,themoviedb.org
 DOMAIN-SUFFIX,tmdb.org
-DOMAIN,firebaselogging-pa.googleapis.com
 
 # cn
 DOMAIN-SUFFIX,cn
