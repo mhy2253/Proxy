@@ -662,6 +662,12 @@ IP-CIDR6,240e:ff:f100::/44,no-resolve
 IP-ASN,132203,no-resolve
 USER-AGENT,MicroMessenger*
 USER-AGENT,WeChat*
+
+# tmdb
+DOMAIN-SUFFIX,themoviedb.org
+DOMAIN-SUFFIX,tmdb.org
+DOMAIN,firebaselogging-pa.googleapis.com
+
 # cn
 DOMAIN-SUFFIX,cn
 DOMAIN-SUFFIX,xn--fiqs8s
