@@ -676,8 +676,10 @@ DOMAIN-SUFFIX,xn--io0a7i
 IP-CIDR,195.245.229.172/32,no-resolve
 IP-CIDR,168.138.33.223/32,no-resolve
 IP-CIDR6,2603:c023:f:7b25:ae2c:6493:f4b:b245/128,no-resolve
-DOMAIN-SUFFIX,linkload.io
-DOMAIN-SUFFIX,linkroad.io
+DOMAIN-SUFFIX,linkload.me
+DOMAIN-SUFFIX,linkroad.me
+DOMAIN-SUFFIX,linkload.uk
+DOMAIN-SUFFIX,linkroad.uk
 DOMAIN-SUFFIX,mhy2253.me
 DOMAIN-SUFFIX,mhy2253.com
 DOMAIN-SUFFIX,mhy2253.xyz
