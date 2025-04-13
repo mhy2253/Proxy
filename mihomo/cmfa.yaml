@@ -101,6 +101,23 @@ proxies:
       - h2
       - http/1.1
     skip-cert-verify: true
+  - name: tuic
+    server: www.example.com
+    port: 443
+    type: tuic
+    uuid: 00000000-0000-0000-0000-000000000001
+    password: PASSWORD_1
+    heartbeat-interval: 10000
+    alpn: [h3]
+    disable-sni: true
+    reduce-rtt: true
+    request-timeout: 8000
+    udp-relay-mode: native # Available: "native", "quic". Default: "native"
+    congestion-controller: bbr
+    max-udp-relay-packet-size: 1500
+    fast-open: true
+    skip-cert-verify: true 
+    sni: example.com
     
     
    # 策略组
