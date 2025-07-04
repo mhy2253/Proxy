@@ -1,0 +1,688 @@
+mixed-port: 10801 
+allow-lan: true
+skip-auth-prefixes:
+  - 127.0.0.1/8
+  - ::1/128
+lan-allowed-ips:
+  - 0.0.0.0/0
+  - ::/0
+bind-address: "*"
+tcp-concurrent: true 
+geodata-mode: true
+geodata-loader: standard
+find-process-mode: strict
+global-client-fingerprint: chrome
+mode: rule
+geox-url:
+  geoip: "https://mhy2253.me/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
+  geosite: "https://mhy2253.me/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://mhy2253.me/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
+  asn: "https://mhy2253.me/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+
+geo-auto-update: true 
+geo-update-interval: 24 
+log-level: info
+ipv6: true
+
+profile: 
+  store-selected: true
+  store-fake-ip: true
+tun:
+  enable: true
+  stack: mixed
+  dns-hijack:
+    - 0.0.0.0:53 
+  auto-detect-interface: true 
+  auto-redirect: true
+  auto-route: true 
+sniffer:
+  enable: true
+  sniff: 
+    QUIC:
+      ports: [ 443 ]
+    TLS:
+      ports: [443, 8443]
+    HTTP: 
+      ports: [80, 8080-8880]
+      override-destination: true
+
+  force-domain:
+    - +.v2ex.com
+  skip-domain:
+    - Mijia Cloud
+
+dns:
+  ipv6: false
+  enable: true
+  enhanced-mode: fake-ip
+  default-nameserver:
+    - 223.5.5.5
+    - 114.114.114.114
+    - system
+  fake-ip-range: 198.18.0.1/16 
+  fake-ip-filter:
+    - '*.lan'
+    - localhost.ptlogin2.qq.com
+
+  nameserver:
+    - https://223.5.5.5/dns-query#h3=true
+    - https://dns.alidns.com/dns-query#h3=true 
+
+    
+
+# 代理节点
+
+proxies:  
+  - name: "ss"
+    type: ss
+    server: linkload.uk
+    port: 22253
+    cipher: chacha20-ietf-poly1305
+    password: "eNlo@1g@%6gq7H9Y"
+    udp: true
+    udp-over-tcp: true
+    ip-version: ipv6-prefer
+
+  - name: "trojan"
+    type: trojan
+    server: linkload.me
+    port: 443
+    password: xHvse7n9wLy#aBB$
+    client-fingerprint: chrome
+    udp: true
+    sin: linload.me
+    alpn:
+      - h2
+      - http/1.1
+    skip-cert-verify: true
+    
+    
+   # 策略组
+
+proxy-groups: 
+
+  - name: proxy
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    proxies:
+      - ss
+      - trojan
+
+rules:
+ - DOMAIN-SUFFIX,123pan.com,DIRECT
+ - DOMAIN-SUFFIX,cjjd19.com,DIRECT
+ - DOMAIN-SUFFIX,alipay,DIRECT
+ - DOMAIN-SUFFIX,alipay-corp.com,DIRECT
+ - DOMAIN-SUFFIX,alipay-eco.com,DIRECT
+ - DOMAIN-SUFFIX,alipay-inc.com,DIRECT
+ - DOMAIN-SUFFIX,alipay-traffic.com,DIRECT
+ - DOMAIN-SUFFIX,alipay.cn,DIRECT
+ - DOMAIN-SUFFIX,alipay.com,DIRECT
+ - DOMAIN-SUFFIX,alipay.com.cn,DIRECT
+ - DOMAIN-SUFFIX,alipay.hk,DIRECT
+ - DOMAIN-SUFFIX,alipay.net,DIRECT
+ - DOMAIN-SUFFIX,alipaydesign.com,DIRECT
+ - DOMAIN-SUFFIX,alipaydev.com,DIRECT
+ - DOMAIN-SUFFIX,alipaydns.com,DIRECT
+ - DOMAIN-SUFFIX,alipayeshop.com,DIRECT
+ - DOMAIN-SUFFIX,alipaylog.com,DIRECT
+ - DOMAIN-SUFFIX,alipaymo.com,DIRECT
+ - DOMAIN-SUFFIX,alipayobjects.com,DIRECT
+ - DOMAIN-SUFFIX,alipayplus.com,DIRECT
+ - DOMAIN-SUFFIX,ifaa.org.cn,DIRECT
+ - DOMAIN-SUFFIX,luohanacademy.com,DIRECT
+ - DOMAIN-SUFFIX,sinopayment.com.cn,DIRECT
+ #vps
+ - IP-CIDR,192.9.231.236/32,DIRECT,no-resolve
+ - IP-CIDR,141.147.153.239/32,DIRECT,no-resolve
+ - IP-CIDR,158.178.233.224/32,DIRECT,no-resolve
+ - IP-CIDR,195.245.229.172/32,DIRECT,no-resolve
+ - IP-CIDR,111.30.160.0/20,DIRECT,no-resolve
+ - IP-CIDR,112.53.11.0/24,DIRECT,no-resolve
+ - IP-CIDR,112.53.20.0/24,DIRECT,no-resolve
+ - IP-CIDR6,2402:4e00:1020:10fb:0:9466::/112,DIRECT,no-resolve
+ - IP-CIDR6,2402:4e00:1430:2264:0:9467::/96,DIRECT,no-resolve
+ - IP-CIDR6,2402:4e00:1900:1700:0:9554:1ad0:140a/128,DIRECT,no-resolve
+ - IP-CIDR6,2402:4e00:8010::/112,DIRECT,no-resolve
+ - IP-CIDR6,2402:4e00:8020:101::2:0/112,DIRECT,no-resolve
+ - IP-CIDR6,2408:80f1:21::/48,DIRECT,no-resolve
+ - IP-CIDR6,2408:80f1:31::/48,DIRECT,no-resolve
+ - IP-CIDR6,2408:8711:10:10::/112,DIRECT,no-resolve
+ - IP-CIDR6,2408:8752:0:10::/60,DIRECT,no-resolve
+ - IP-CIDR6,2408:8752:0:2:30::/112,DIRECT,no-resolve
+ - IP-CIDR6,2408:8752:0:30::/64,DIRECT,no-resolve
+ - IP-CIDR6,2408:8752:0:f::/64,DIRECT,no-resolve
+ - IP-CIDR6,2408:8756:2cf2:19::/112,DIRECT,no-resolve
+ - IP-CIDR6,2408:8756:2cff:10::/60,DIRECT,no-resolve
+ - IP-CIDR6,2408:8756:3af0:10::/112,DIRECT,no-resolve
+ - IP-CIDR6,2408:8756:3af0:2013::/112,DIRECT,no-resolve
+ - IP-CIDR6,2408:8756:f50::/48,DIRECT,no-resolve
+ - IP-CIDR6,2408:8763:0:200::/60,DIRECT,no-resolve
+ - IP-CIDR6,2409:8702:4860:10::/112,DIRECT,no-resolve
+ - IP-CIDR6,2409:8754:f111::/60,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c02:24c:45::/72,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c1e:75b0:1010::/112,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c1e:75b0:13::/112,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c1e:8f60::/60,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c1e:8f60:bb::/72,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c1e:8fd0::/56,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c20:818:110::/60,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c34:2220:20::/60,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c34:22a0:10::/60,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c34:d00:200::/60,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c38:80:150::/72,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c50:2400::/60,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c50:a00:2122::/72,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c54:1003:1019::/112,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c54:1003:10::/112,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c54:1050:10::/112,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c54:1801:10::/60,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c54:1821:70::/60,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c54:2000:400::/60,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c54:2800:9110::/60,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c54:5100::/56,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c54:810:208:2d::/112,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c54:871::/60,DIRECT,no-resolve
+ - IP-CIDR6,2409:8c5c:110:63::/72,DIRECT,no-resolve
+ - IP-CIDR6,240e:928:1400:10::/112,DIRECT,no-resolve
+ - IP-CIDR6,240e:93c:8:10::/60,DIRECT,no-resolve
+ - IP-CIDR6,240e:95c:2003:20::/60,DIRECT,no-resolve
+ - IP-CIDR6,240e:965:802:620::/60,DIRECT,no-resolve
+ - IP-CIDR6,240e:96c:6400:700::/60,DIRECT,no-resolve
+ - IP-CIDR6,240e:97c:18:601::/64,DIRECT,no-resolve
+ - IP-CIDR6,240e:97c:18:910::/60,DIRECT,no-resolve
+ - IP-CIDR6,240e:97c:2f::/60,DIRECT,no-resolve
+ - IP-CIDR6,240e:97d:2010:100::/60,DIRECT,no-resolve
+ - IP-CIDR6,240e:97d:4:1e00::/60,DIRECT,no-resolve
+ - IP-CIDR6,240e:97f:3000:1102::/64,DIRECT,no-resolve
+ - IP-CIDR6,240e:cf:8800::/56,DIRECT,no-resolve
+ - IP-CIDR6,240e:e1:a800::/46,DIRECT,no-resolve
+ - IP-CIDR6,240e:e1:a900::/48,DIRECT,no-resolve
+ - IP-CIDR6,240e:e1:aa00::/48,DIRECT,no-resolve
+ - IP-CIDR6,240e:e9:6003::/48,DIRECT,no-resolve
+ - IP-CIDR6,240e:f7:4f00:1f10::/60,DIRECT,no-resolve
+ - IP-CIDR6,240e:f7:a070:100::/60,DIRECT,no-resolve
+ - IP-CIDR6,240e:ff:9018:100::/60,DIRECT,no-resolve
+ - IP-CIDR6,240e:ff:f100::/44,DIRECT,no-resolve
+ - DOMAIN-KEYWORD,101.226.129.,DIRECT
+ - DOMAIN-KEYWORD,101.226.211.,DIRECT
+ - DOMAIN-KEYWORD,101.226.222.,DIRECT
+ - DOMAIN-KEYWORD,101.226.226.,DIRECT
+ - DOMAIN-KEYWORD,101.227.162.,DIRECT
+ - DOMAIN-KEYWORD,101.32.104.,DIRECT
+ - DOMAIN-KEYWORD,101.32.118.,DIRECT
+ - DOMAIN-KEYWORD,101.32.133.,DIRECT
+ - DOMAIN-KEYWORD,101.33.110.,DIRECT
+ - DOMAIN-KEYWORD,101.89.15.,DIRECT
+ - DOMAIN-KEYWORD,101.89.38.,DIRECT
+ - DOMAIN-KEYWORD,101.89.50.,DIRECT
+ - DOMAIN-KEYWORD,101.91.22.,DIRECT
+ - DOMAIN-KEYWORD,101.91.34.,DIRECT
+ - DOMAIN-KEYWORD,101.91.37.,DIRECT
+ - DOMAIN-KEYWORD,101.91.5.,DIRECT
+ - DOMAIN-KEYWORD,101.91.69.,DIRECT
+ - DOMAIN-KEYWORD,101.91.71.,DIRECT
+ - DOMAIN-KEYWORD,106.225.231.,DIRECT
+ - DOMAIN-KEYWORD,109.244.169.,DIRECT
+ - DOMAIN-KEYWORD,110.52.193.,DIRECT
+ - DOMAIN-KEYWORD,110.53.246.,DIRECT
+ - DOMAIN-KEYWORD,111.0.26.,DIRECT
+ - DOMAIN-KEYWORD,111.30.164.,DIRECT
+ - DOMAIN-KEYWORD,111.45.68.,DIRECT
+ - DOMAIN-KEYWORD,111.45.69.,DIRECT
+ - DOMAIN-KEYWORD,111.45.70.,DIRECT
+ - DOMAIN-KEYWORD,112.53.25.,DIRECT
+ - DOMAIN-KEYWORD,112.53.36.,DIRECT
+ - DOMAIN-KEYWORD,112.60.0.,DIRECT
+ - DOMAIN-KEYWORD,112.60.13.,DIRECT
+ - DOMAIN-KEYWORD,112.60.14.,DIRECT
+ - DOMAIN-KEYWORD,112.60.8.,DIRECT
+ - DOMAIN-KEYWORD,112.65.193.,DIRECT
+ - DOMAIN-KEYWORD,112.90.43.,DIRECT
+ - DOMAIN-KEYWORD,113.105.154.,DIRECT
+ - DOMAIN-KEYWORD,113.105.165.,DIRECT
+ - DOMAIN-KEYWORD,113.105.166.,DIRECT
+ - DOMAIN-KEYWORD,113.96.154.,DIRECT
+ - DOMAIN-KEYWORD,113.96.156.,DIRECT
+ - DOMAIN-KEYWORD,113.96.16.,DIRECT
+ - DOMAIN-KEYWORD,113.96.18.,DIRECT
+ - DOMAIN-KEYWORD,113.96.202.,DIRECT
+ - DOMAIN-KEYWORD,113.96.208.,DIRECT
+ - DOMAIN-KEYWORD,113.96.209.,DIRECT
+ - DOMAIN-KEYWORD,113.96.210.,DIRECT
+ - DOMAIN-KEYWORD,113.96.232.,DIRECT
+ - DOMAIN-KEYWORD,113.96.233.,DIRECT
+ - DOMAIN-KEYWORD,113.96.237.,DIRECT
+ - DOMAIN-KEYWORD,113.96.83.,DIRECT
+ - DOMAIN-KEYWORD,113.96.98.,DIRECT
+ - DOMAIN-KEYWORD,115.231.229.,DIRECT
+ - DOMAIN-KEYWORD,115.238.197.,DIRECT
+ - DOMAIN-KEYWORD,116.128.133.,DIRECT
+ - DOMAIN-KEYWORD,116.128.163.,DIRECT
+ - DOMAIN-KEYWORD,116.128.171.,DIRECT
+ - DOMAIN-KEYWORD,116.253.60.,DIRECT
+ - DOMAIN-KEYWORD,116.253.61.,DIRECT
+ - DOMAIN-KEYWORD,117.135.133.,DIRECT
+ - DOMAIN-KEYWORD,117.184.242.,DIRECT
+ - DOMAIN-KEYWORD,117.187.243.,DIRECT
+ - DOMAIN-KEYWORD,117.41.224.,DIRECT
+ - DOMAIN-KEYWORD,119.147.190.,DIRECT
+ - DOMAIN-KEYWORD,119.147.227.,DIRECT
+ - DOMAIN-KEYWORD,119.147.83.,DIRECT
+ - DOMAIN-KEYWORD,119.188.155.,DIRECT
+ - DOMAIN-KEYWORD,119.39.81.,DIRECT
+ - DOMAIN-KEYWORD,120.204.0.,DIRECT
+ - DOMAIN-KEYWORD,120.204.10.,DIRECT
+ - DOMAIN-KEYWORD,120.221.179.,DIRECT
+ - DOMAIN-KEYWORD,120.232.27.,DIRECT
+ - DOMAIN-KEYWORD,120.232.33.,DIRECT
+ - DOMAIN-KEYWORD,120.232.65.,DIRECT
+ - DOMAIN-KEYWORD,120.232.68.,DIRECT
+ - DOMAIN-KEYWORD,120.233.36.,DIRECT
+ - DOMAIN-KEYWORD,120.237.199.,DIRECT
+ - DOMAIN-KEYWORD,120.241.149.,DIRECT
+ - DOMAIN-KEYWORD,120.241.150.,DIRECT
+ - DOMAIN-KEYWORD,120.241.17.,DIRECT
+ - DOMAIN-KEYWORD,120.241.186.,DIRECT
+ - DOMAIN-KEYWORD,120.241.189.,DIRECT
+ - DOMAIN-KEYWORD,120.241.190.,DIRECT
+ - DOMAIN-KEYWORD,120.241.21.,DIRECT
+ - DOMAIN-KEYWORD,120.241.25.,DIRECT
+ - DOMAIN-KEYWORD,120.241.92.,DIRECT
+ - DOMAIN-KEYWORD,121.12.115.,DIRECT
+ - DOMAIN-KEYWORD,121.14.142.,DIRECT
+ - DOMAIN-KEYWORD,121.14.98.,DIRECT
+ - DOMAIN-KEYWORD,121.51.124.,DIRECT
+ - DOMAIN-KEYWORD,121.51.130.,DIRECT
+ - DOMAIN-KEYWORD,122.225.36.,DIRECT
+ - DOMAIN-KEYWORD,122.246.25.,DIRECT
+ - DOMAIN-KEYWORD,123.150.208.,DIRECT
+ - DOMAIN-KEYWORD,123.150.76.,DIRECT
+ - DOMAIN-KEYWORD,123.151.190.,DIRECT
+ - DOMAIN-KEYWORD,123.161.61.,DIRECT
+ - DOMAIN-KEYWORD,123.184.36.,DIRECT
+ - DOMAIN-KEYWORD,124.232.162.,DIRECT
+ - DOMAIN-KEYWORD,129.226.107.,DIRECT
+ - DOMAIN-KEYWORD,129.226.3.,DIRECT
+ - DOMAIN-KEYWORD,14.17.41.,DIRECT
+ - DOMAIN-KEYWORD,14.17.73.,DIRECT
+ - DOMAIN-KEYWORD,14.18.175.,DIRECT
+ - DOMAIN-KEYWORD,14.18.178.,DIRECT
+ - DOMAIN-KEYWORD,14.18.180.,DIRECT
+ - DOMAIN-KEYWORD,14.18.200.,DIRECT
+ - DOMAIN-KEYWORD,14.18.245.,DIRECT
+ - DOMAIN-KEYWORD,14.215.138.,DIRECT
+ - DOMAIN-KEYWORD,14.215.158.,DIRECT
+ - DOMAIN-KEYWORD,14.215.166.,DIRECT
+ - DOMAIN-KEYWORD,14.215.167.,DIRECT
+ - DOMAIN-KEYWORD,14.215.85.,DIRECT
+ - DOMAIN-KEYWORD,14.22.0.,DIRECT
+ - DOMAIN-KEYWORD,14.22.33.,DIRECT
+ - DOMAIN-KEYWORD,14.22.4.,DIRECT
+ - DOMAIN-KEYWORD,14.22.5.,DIRECT
+ - DOMAIN-KEYWORD,14.29.100.,DIRECT
+ - DOMAIN-KEYWORD,14.29.101.,DIRECT
+ - DOMAIN-KEYWORD,140.207.119.,DIRECT
+ - DOMAIN-KEYWORD,150.109.90.,DIRECT
+ - DOMAIN-KEYWORD,157.148.33.,DIRECT
+ - DOMAIN-KEYWORD,157.148.42.,DIRECT
+ - DOMAIN-KEYWORD,157.148.45.,DIRECT
+ - DOMAIN-KEYWORD,157.148.51.,DIRECT
+ - DOMAIN-KEYWORD,157.148.55.,DIRECT
+ - DOMAIN-KEYWORD,157.255.135.,DIRECT
+ - DOMAIN-KEYWORD,157.255.173.,DIRECT
+ - DOMAIN-KEYWORD,157.255.174.,DIRECT
+ - DOMAIN-KEYWORD,157.255.192.,DIRECT
+ - DOMAIN-KEYWORD,157.255.243.,DIRECT
+ - DOMAIN-KEYWORD,157.255.244.,DIRECT
+ - DOMAIN-KEYWORD,157.255.245.,DIRECT
+ - DOMAIN-KEYWORD,163.177.81.,DIRECT
+ - DOMAIN-KEYWORD,163.177.89.,DIRECT
+ - DOMAIN-KEYWORD,163.177.90.,DIRECT
+ - DOMAIN-KEYWORD,175.27.0.,DIRECT
+ - DOMAIN-KEYWORD,175.6.13.,DIRECT
+ - DOMAIN-KEYWORD,180.111.199.,DIRECT
+ - DOMAIN-KEYWORD,180.163.15.,DIRECT
+ - DOMAIN-KEYWORD,180.163.25.,DIRECT
+ - DOMAIN-KEYWORD,180.163.26.,DIRECT
+ - DOMAIN-KEYWORD,180.96.0.,DIRECT
+ - DOMAIN-KEYWORD,180.96.2.,DIRECT
+ - DOMAIN-KEYWORD,180.97.8.,DIRECT
+ - DOMAIN-KEYWORD,182.254.78.,DIRECT
+ - DOMAIN-KEYWORD,182.254.92.,DIRECT
+ - DOMAIN-KEYWORD,183.131.56.,DIRECT
+ - DOMAIN-KEYWORD,183.131.57.,DIRECT
+ - DOMAIN-KEYWORD,183.192.169.,DIRECT
+ - DOMAIN-KEYWORD,183.194.238.,DIRECT
+ - DOMAIN-KEYWORD,183.195.236.,DIRECT
+ - DOMAIN-KEYWORD,183.232.175.,DIRECT
+ - DOMAIN-KEYWORD,183.232.246.,DIRECT
+ - DOMAIN-KEYWORD,183.232.94.,DIRECT
+ - DOMAIN-KEYWORD,183.232.95.,DIRECT
+ - DOMAIN-KEYWORD,183.232.96.,DIRECT
+ - DOMAIN-KEYWORD,183.240.115.,DIRECT
+ - DOMAIN-KEYWORD,183.240.118.,DIRECT
+ - DOMAIN-KEYWORD,183.240.48.,DIRECT
+ - DOMAIN-KEYWORD,183.240.56.,DIRECT
+ - DOMAIN-KEYWORD,183.240.80.,DIRECT
+ - DOMAIN-KEYWORD,183.240.81.,DIRECT
+ - DOMAIN-KEYWORD,183.3.224.,DIRECT
+ - DOMAIN-KEYWORD,183.3.226.,DIRECT
+ - DOMAIN-KEYWORD,183.3.233.,DIRECT
+ - DOMAIN-KEYWORD,183.3.234.,DIRECT
+ - DOMAIN-KEYWORD,183.3.235.,DIRECT
+ - DOMAIN-KEYWORD,183.47.101.,DIRECT
+ - DOMAIN-KEYWORD,183.47.115.,DIRECT
+ - DOMAIN-KEYWORD,183.47.117.,DIRECT
+ - DOMAIN-KEYWORD,183.47.97.,DIRECT
+ - DOMAIN-KEYWORD,183.60.131.,DIRECT
+ - DOMAIN-KEYWORD,183.60.155.,DIRECT
+ - DOMAIN-KEYWORD,183.61.13.,DIRECT
+ - DOMAIN-KEYWORD,203.205.232.,DIRECT
+ - DOMAIN-KEYWORD,203.205.234.,DIRECT
+ - DOMAIN-KEYWORD,203.205.235.,DIRECT
+ - DOMAIN-KEYWORD,203.205.253.,DIRECT
+ - DOMAIN-KEYWORD,203.205.254.,DIRECT
+ - DOMAIN-KEYWORD,211.95.137.,DIRECT
+ - DOMAIN-KEYWORD,211.95.138.,DIRECT
+ - DOMAIN-KEYWORD,218.68.88.,DIRECT
+ - DOMAIN-KEYWORD,218.68.90.,DIRECT
+ - DOMAIN-KEYWORD,219.135.59.,DIRECT
+ - DOMAIN-KEYWORD,220.194.91.,DIRECT
+ - DOMAIN-KEYWORD,220.194.93.,DIRECT
+ - DOMAIN-KEYWORD,220.196.144.,DIRECT
+ - DOMAIN-KEYWORD,220.249.243.,DIRECT
+ - DOMAIN-KEYWORD,221.181.97.,DIRECT
+ - DOMAIN-KEYWORD,221.181.99.,DIRECT
+ - DOMAIN-KEYWORD,223.166.152.,DIRECT
+ - DOMAIN-KEYWORD,27.19.222.,DIRECT
+ - DOMAIN-KEYWORD,36.136.108.,DIRECT
+ - DOMAIN-KEYWORD,36.152.4.,DIRECT
+ - DOMAIN-KEYWORD,36.155.202.,DIRECT
+ - DOMAIN-KEYWORD,36.158.189.,DIRECT
+ - DOMAIN-KEYWORD,36.158.242.,DIRECT
+ - DOMAIN-KEYWORD,36.250.230.,DIRECT
+ - DOMAIN-KEYWORD,42.187.131.,DIRECT
+ - DOMAIN-KEYWORD,42.187.182.,DIRECT
+ - DOMAIN-KEYWORD,42.187.184.,DIRECT
+ - DOMAIN-KEYWORD,42.202.141.,DIRECT
+ - DOMAIN-KEYWORD,43.156.222.,DIRECT
+ - DOMAIN-KEYWORD,43.156.86.,DIRECT
+ - DOMAIN-KEYWORD,58.144.193.,DIRECT
+ - DOMAIN-KEYWORD,58.144.248.,DIRECT
+ - DOMAIN-KEYWORD,58.247.204.,DIRECT
+ - DOMAIN-KEYWORD,58.247.205.,DIRECT
+ - DOMAIN-KEYWORD,58.250.136.,DIRECT
+ - DOMAIN-KEYWORD,58.251.100.,DIRECT
+ - DOMAIN-KEYWORD,58.251.111.,DIRECT
+ - DOMAIN-KEYWORD,58.251.117.,DIRECT
+ - DOMAIN-KEYWORD,58.251.80.,DIRECT
+ - DOMAIN-KEYWORD,58.251.81.,DIRECT
+ - DOMAIN-KEYWORD,58.251.82.,DIRECT
+ - DOMAIN-KEYWORD,58.49.138.,DIRECT
+ - DOMAIN-KEYWORD,59.36.89.,DIRECT
+ - DOMAIN-KEYWORD,59.36.97.,DIRECT
+ - DOMAIN-KEYWORD,59.37.96.,DIRECT
+ - DOMAIN-KEYWORD,59.37.97.,DIRECT
+ - DOMAIN-KEYWORD,60.13.97.,DIRECT
+ - DOMAIN-KEYWORD,61.151.165.,DIRECT
+ - DOMAIN-KEYWORD,61.151.167.,DIRECT
+ - DOMAIN-KEYWORD,61.151.168.,DIRECT
+ - DOMAIN-KEYWORD,61.151.183.,DIRECT
+ - DOMAIN-KEYWORD,61.151.206.,DIRECT
+ - DOMAIN-KEYWORD,61.151.207.,DIRECT
+ - DOMAIN-KEYWORD,61.190.114.,DIRECT
+ - DOMAIN-KEYWORD,61.191.60.,DIRECT
+ - DOMAIN-KEYWORD,61.241.31.,DIRECT
+ - DOMAIN-KEYWORD,61.241.44.,DIRECT
+ - DOMAIN-KEYWORD,61.241.47.,DIRECT
+ - DOMAIN-KEYWORD,61.241.49.,DIRECT
+ - DOMAIN-SUFFIX,alidns.com,DIRECT
+ - DOMAIN-SUFFIX,zhenyunpan.com,DIRECT
+ - DOMAIN-SUFFIX,1688.com,DIRECT
+ - DOMAIN-SUFFIX,aliapp.org,DIRECT
+ - DOMAIN-SUFFIX,alibaba.com,DIRECT
+ - DOMAIN-SUFFIX,alibabacloud.com,DIRECT
+ - DOMAIN-SUFFIX,alibabausercontent.com,DIRECT
+ - DOMAIN-SUFFIX,alicdn.com,DIRECT
+ - DOMAIN-SUFFIX,alicloudccp.com,DIRECT
+ - DOMAIN-SUFFIX,aliexpress.com,DIRECT
+ - DOMAIN-SUFFIX,aliimg.com,DIRECT
+ - DOMAIN-SUFFIX,alikunlun.com,DIRECT
+ - DOMAIN-SUFFIX,alipay.com,DIRECT
+ - DOMAIN-SUFFIX,alipayobjects.com,DIRECT
+ - DOMAIN-SUFFIX,alisoft.com,DIRECT
+ - DOMAIN-SUFFIX,aliyun.com,DIRECT
+ - DOMAIN-SUFFIX,aliyuncdn.com,DIRECT
+ - DOMAIN-SUFFIX,aliyuncs.com,DIRECT
+ - DOMAIN-SUFFIX,aliyundrive.com,DIRECT
+ - DOMAIN-SUFFIX,aliyundrive.net,DIRECT
+ - DOMAIN-SUFFIX,amap.com,DIRECT
+ - DOMAIN-SUFFIX,autonavi.com,DIRECT
+ - DOMAIN-SUFFIX,dingtalk.com,DIRECT
+ - DOMAIN-SUFFIX,ele.me,DIRECT
+ - DOMAIN-SUFFIX,hichina.co,DIRECT
+ - DOMAIN-SUFFIX,mmstat.com,DIRECT
+ - DOMAIN-SUFFIX,mxhichina.com,DIRECT
+ - DOMAIN-SUFFIX,soku.com,DIRECT
+ - DOMAIN-SUFFIX,taobao.com,DIRECT
+ - DOMAIN-SUFFIX,taobaocdn.com,DIRECT
+ - DOMAIN-SUFFIX,tbcache.com,DIRECT
+ - DOMAIN-SUFFIX,tbcdn.com,DIRECT
+ - DOMAIN-SUFFIX,tmall.com,DIRECT
+ - DOMAIN-SUFFIX,tmall.hk,DIRECT
+ - DOMAIN-SUFFIX,ucweb.com,DIRECT
+ - DOMAIN-SUFFIX,xiami.com,DIRECT
+ - DOMAIN-SUFFIX,xiami.net,DIRECT
+ - DOMAIN-SUFFIX,ykimg.com,DIRECT
+ - DOMAIN-SUFFIX,youku.com,DIRECT
+ - DOMAIN-SUFFIX,hdhive.online,proxy
+ - DOMAIN-SUFFIX,linkroad.io,DIRECT
+ - DOMAIN-SUFFIX,linkload.io,DIRECT
+ - DOMAIN-SUFFIX,mhy2253.me,DIRECT
+ - DOMAIN-SUFFIX,mhy2253.xyz,DIRECT
+ - DOMAIN-SUFFIX,mhy2253.com,DIRECT
+ - DOMAIN,fhnfile.oss-cn-shenzhen.aliyuncs.com,DIRECT
+ - DOMAIN-SUFFIX,115.com,DIRECT
+ - DOMAIN-SUFFIX,115cdn.com,DIRECT
+ - DOMAIN-SUFFIX,115cdn.net,DIRECT
+ - DOMAIN-SUFFIX,115img.com,DIRECT
+ - DOMAIN-SUFFIX,116cd.cn,DIRECT
+ - DOMAIN-SUFFIX,116cd.com,DIRECT
+ - DOMAIN-SUFFIX,116cd.net,DIRECT
+ - DOMAIN-SUFFIX,anxia.com,DIRECT
+ - DOMAIN-SUFFIX,sq.cc,DIRECT
+ - DOMAIN-SUFFIX,123pan.com,DIRECT
+ - DOMAIN-SUFFIX,123957.com,DIRECT
+ - DOMAIN-SUFFIX,cjjd19.com,DIRECT
+ - IP-CIDR,149.83.58.184/16,DIRECT,no-resolve
+ - IP-CIDR,64.181.244.241/8,DIRECT,no-resolve
+ - IP-CIDR,195.245.229.172/24,DIRECT,no-resolve
+ - DOMAIN-SUFFIX,alipay,DIRECT
+ - DOMAIN-SUFFIX,alipay-corp.com,DIRECT
+ - DOMAIN-SUFFIX,alipay-eco.com,DIRECT
+ - DOMAIN-SUFFIX,alipay-inc.com,DIRECT
+ - DOMAIN-SUFFIX,alipay-traffic.com,DIRECT
+ - DOMAIN-SUFFIX,alipay.cn,DIRECT
+ - DOMAIN-SUFFIX,alipay.com,DIRECT
+ - DOMAIN-SUFFIX,alipay.com.cn,DIRECT
+ - DOMAIN-SUFFIX,alipay.hk,DIRECT
+ - DOMAIN-SUFFIX,alipay.net,DIRECT
+ - DOMAIN-SUFFIX,alipaydesign.com,DIRECT
+ - DOMAIN-SUFFIX,alipaydev.com,DIRECT
+ - DOMAIN-SUFFIX,alipaydns.com,DIRECT
+ - DOMAIN-SUFFIX,alipayeshop.com,DIRECT
+ - DOMAIN-SUFFIX,alipaylog.com,DIRECT
+ - DOMAIN-SUFFIX,alipaymo.com,DIRECT
+ - DOMAIN-SUFFIX,alipayobjects.com,DIRECT
+ - DOMAIN-SUFFIX,alipayplus.com,DIRECT
+ - DOMAIN-SUFFIX,ifaa.org.c,DIRECT
+ - DOMAIN-SUFFIX,luohanacademy.com,DIRECT
+ - DOMAIN-SUFFIX,sinopayment.com.cn,DIRECT
+
+# Lan
+ - DOMAIN-SUFFIX,local,DIRECT
+ - IP-CIDR,0.0.0.0/8,DIRECT,no-resolve
+ - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
+ - IP-CIDR,100.64.0.0/10,DIRECT,no-resolve
+ - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+ - IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
+ - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
+ - IP-CIDR,224.0.0.0/4,DIRECT,no-resolve
+ - IP-CIDR,169.254.0.0/16,DIRECT,no-resolve
+ - IP-CIDR,192.0.0.0/24,DIRECT,no-resolve
+ - IP-CIDR,192.0.2.0/24,DIRECT,no-resolve
+ - IP-CIDR6,::1/128,DIRECT,no-resolve
+ - IP-CIDR6,fc00::/7,DIRECT,no-resolve
+ - IP-CIDR6,fe80::/10,DIRECT,no-resolve
+ - IP-CIDR6,fe80::/10,DIRECT,no-resolve
+#
+ - IP-CIDR,149.154.160.0/20,proxy,no-resolve
+ - IP-CIDR,185.76.151.0/24,proxy,no-resolve
+ - IP-CIDR,91.105.192.0/23, proxy,no-resolve
+ - IP-CIDR,91.108.12.0/22, proxy,no-resolve
+ - IP-CIDR,91.108.16.0/22, proxy,no-resolve
+ - IP-CIDR,91.108.20.0/22, proxy,no-resolve
+ - IP-CIDR,91.108.4.0/22, proxy,no-resolve
+ - IP-CIDR,91.108.56.0/22, proxy,no-resolve
+ - IP-CIDR,91.108.8.0/22, proxy,no-resolve
+ - IP-CIDR6,2001:67c:4e8::/48,proxy,no-resolve
+ - IP-CIDR6,2001:b28:f23c::/48,proxy,no-resolve
+ - IP-CIDR6,2001:b28:f23d::/48,proxy,no-resolve
+ - IP-CIDR6,2001:b28:f23f::/48,proxy,no-resolve
+ - IP-CIDR6,2a0a:f280::/32,proxy,no-resolve
+ - DOMAIN-SUFFIX,qlogo.cn,DIRECT
+ - DOMAIN-SUFFIX,qpic.cn,DIRECT
+ - DOMAIN-SUFFIX,weixin.qq.com,DIRECT
+ - DOMAIN-SUFFIX,wxapp.tc.qq.com,DIRECT
+ - DOMAIN-SUFFIX,servicewechat.com,DIRECT
+ - DOMAIN-SUFFIX,tenpay.com,DIRECT
+ - DOMAIN-SUFFIX,wechat.com,DIRECT
+ - DOMAIN-SUFFIX,wechatlegal.net,DIRECT
+ - DOMAIN-SUFFIX,wechatpay.com,DIRECT
+ - DOMAIN-SUFFIX,weixin.com,DIRECT
+ - DOMAIN-SUFFIX,weixinbridge.com,DIRECT
+ - DOMAIN-SUFFIX,weixinsxy.com,DIRECT
+ - IP-CIDR,101.32.104.4/32,DIRECT,no-resolve
+ - IP-CIDR,101.32.104.41/32,DIRECT,no-resolve
+ - IP-CIDR,101.32.104.56/32,DIRECT,no-resolve
+ - IP-CIDR,101.32.118.25/32,DIRECT,no-resolve
+ - IP-CIDR,101.32.133.16/32,DIRECT,no-resolve
+ - IP-CIDR,101.32.133.53/32,DIRECT,no-resolve
+ - IP-CIDR,101.32.133.209/32,DIRECT,no-resolve
+ - IP-CIDR,129.226.3.47/32,DIRECT,no-resolve
+ - IP-CIDR,129.226.107.244/32,DIRECT,no-resolve
+ - DOMAIN,cdn.usefathom.com,proxy
+ - DOMAIN-SUFFIX,anthropic.com,proxy
+ - DOMAIN-SUFFIX,claude.ai,proxy
+ - DOMAIN,ai.google.dev,proxy
+ - DOMAIN,alkalimakersuite-pa.clients6.google.com,proxy
+ - DOMAIN,makersuite.google.com,proxy
+ - DOMAIN-SUFFIX,bard.google.com,proxy
+ - DOMAIN-SUFFIX,deepmind.com,proxy
+ - DOMAIN-SUFFIX,deepmind.google,proxy
+ - DOMAIN-SUFFIX,gemini.google.com,proxy
+ - DOMAIN-SUFFIX,generativeai.google,proxy
+ - DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com,proxy
+ - DOMAIN-SUFFIX,apis.google.com,proxy
+ - DOMAIN-KEYWORD,colab,proxy
+ - DOMAIN-KEYWORD,developerprofiles,proxy 
+ - DOMAIN-KEYWORD,generativelanguage,proxy
+ - DOMAIN,browser-intake-datadoghq.com,proxy
+ - DOMAIN,chat.openai.com.cdn.cloudflare.net,proxy
+ - DOMAIN,gemini.google.com,proxy
+ - DOMAIN,openai-api.arkoselabs.com,proxy
+ - DOMAIN,openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net,proxy
+ - DOMAIN,openaicomproductionae4b.blob.core.windows.net,proxy
+ - DOMAIN,production-openaicom-storage.azureedge.net,proxy
+ - DOMAIN,static.cloudflareinsights.com,proxy
+ - DOMAIN-SUFFIX,ai.com,proxy
+ - DOMAIN-SUFFIX,algolia.net,proxy
+ - DOMAIN-SUFFIX,api.statsig.com,proxy
+ - DOMAIN-SUFFIX,auth0.com,proxy
+ - DOMAIN-SUFFIX,chatgpt.com,proxy
+ - DOMAIN-SUFFIX,chatgpt.livekit.cloud,proxy
+ - DOMAIN-SUFFIX,client-api.arkoselabs.com,proxy
+ - DOMAIN-SUFFIX,events.statsigapi.net,proxy
+ - DOMAIN-SUFFIX,featuregates.org,proxy
+ - DOMAIN-SUFFIX,host.livekit.cloud,proxy
+ - DOMAIN-SUFFIX,identrust.com,proxy
+ - DOMAIN-SUFFIX,intercom.io,proxy
+ - DOMAIN-SUFFIX,intercomcdn.com,proxy
+ - DOMAIN-SUFFIX,launchdarkly.com,proxy
+ - DOMAIN-SUFFIX,oaistatic.com,proxy
+ - DOMAIN-SUFFIX,oaiusercontent.com,proxy
+ - DOMAIN-SUFFIX,observeit.net,proxy
+ - DOMAIN-SUFFIX,openai.com,proxy
+ - DOMAIN-SUFFIX,openaiapi-site.azureedge.net,proxy
+ - DOMAIN-SUFFIX,openaicom.imgix.net,proxy
+ - DOMAIN-SUFFIX,segment.io,proxy
+ - DOMAIN-SUFFIX,sentry.io,proxy
+ - DOMAIN-SUFFIX,stripe.com,proxy
+ - DOMAIN-SUFFIX,turn.livekit.cloud,proxy
+ - DOMAIN-KEYWORD,openai,proxy
+ - DOMAIN-SUFFIX,1e100.net,proxy
+ - DOMAIN-SUFFIX,2mdn.net,proxy
+ - DOMAIN-SUFFIX,app-measurement.net,proxy
+ - DOMAIN-SUFFIX,g.co,proxy
+ - DOMAIN-SUFFIX,ggpht.com,proxy
+ - DOMAIN-SUFFIX,goo.gl,proxy
+ - DOMAIN-SUFFIX,googleapis.cn,proxy
+ - DOMAIN-SUFFIX,googleapis.com,proxy
+ - DOMAIN-SUFFIX,gstatic.cn,proxy
+ - DOMAIN-SUFFIX,gstatic.com,proxy
+ - DOMAIN-SUFFIX,gvt0.com,proxy
+ - DOMAIN-SUFFIX,gvt1.com,proxy
+ - DOMAIN-SUFFIX,gvt2.com,proxy
+ - DOMAIN-SUFFIX,gvt3.com,proxy
+ - DOMAIN-SUFFIX,xn--ngstr-lra8j.com,proxy
+ - DOMAIN-SUFFIX,youtu.be,proxy
+ - DOMAIN-SUFFIX,youtube-nocookie.com,proxy
+ - DOMAIN-SUFFIX,youtube.com,proxy
+ - DOMAIN-SUFFIX,yt.be,proxy
+ - DOMAIN-SUFFIX,ytimg.com,proxy
+ - DOMAIN-KEYWORD,gmail,proxy
+ - DOMAIN-KEYWORD,google,proxy
+ - IP-CIDR,173.194.0.0/16,proxy,no-resolve
+ - IP-CIDR,74.125.0.0/16,proxy,no-resolve
+ - DOMAIN,.cn,DIRECT
+ - DOMAIN-SUFFIX,sing-box.sagernet.org,proxy
+
+# geodata
+ - GEOSITE,github,proxy
+ - GEOSITE,tencent,DIRECT
+ - GEOSITE,oracle,DIRECT
+ - GEOSITE,onedrive,DIRECT
+ - GEOSITE,alibaba,DIRECT
+ - GEOSITE,bilibili,DIRECT
+ - GEOSITE,apple,DIRECT
+ - GEOSITE,cn,DIRECT
+ - GEOSITE,tiktok,proxy
+ - GEOSITE,x,proxy
+ - GEOSITE,youtube,proxy
+ - GEOSITE,google,proxy
+ - GEOSITE,twitter,proxy
+ - GEOSITE,telegram,proxy
+ - GEOSITE,cloudflare,DIRECT
+ - GEOIP,cloudflare,DIRECT
+ - GEOIP,twitter,proxy
+ - GEOIP,google,proxy
+ - RULE-SET,ASN,DIRECT
+ - GEOIP,CN,DIRECT
+ - MATCH,proxy
+
+# 订阅规则
+
+rule-anchor:
+  ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: yaml}
+  domain: &domain {type: http, interval: 86400, behavior: domain, format: yaml}
+
+rule-providers:
+# direct
+  ASN:
+    <<: *domain
+    url: 'https://mhy2253.me/https://raw.githubusercontent.com/Centralmatrix3/Matrix-io/refs/heads/master/Clash/Ruleset/ChinaASN.yaml'
+
+    
