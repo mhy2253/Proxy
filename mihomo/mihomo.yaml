@@ -73,15 +73,6 @@ dns:
 # 代理节点
 
 proxies:  
-  - name: "ss"
-    type: ss
-    server: linkload.uk
-    port: 22253
-    cipher: chacha20-ietf-poly1305
-    password: "eNlo@1g@%6gq7H9Y"
-    udp: true
-    udp-over-tcp: true
-    ip-version: ipv6-prefer
 
   - name: "trojan"
     type: trojan
