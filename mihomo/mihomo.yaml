@@ -98,7 +98,6 @@ proxy-groups:
     interval: 300
     tolerance: 50
     proxies:
-      - ss
       - trojan
 
 rules:
@@ -677,3 +676,4 @@ rule-providers:
     url: 'https://github.linkload.uk/https://raw.githubusercontent.com/Centralmatrix3/Matrix-io/refs/heads/master/Clash/Ruleset/ChinaASN.yaml'
 
     
+
