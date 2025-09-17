@@ -81,7 +81,7 @@ proxies:
     password: xHvse7n9wLy#aBB$
     client-fingerprint: chrome
     udp: true
-    sin: linload.me
+    sin: linkload.me
     alpn:
       - h2
       - http/1.1
@@ -676,4 +676,5 @@ rule-providers:
     url: 'https://github.linkload.uk/https://raw.githubusercontent.com/Centralmatrix3/Matrix-io/refs/heads/master/Clash/Ruleset/ChinaASN.yaml'
 
     
+
 
