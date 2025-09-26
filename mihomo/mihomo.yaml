@@ -101,6 +101,9 @@ proxy-groups:
       - trojan
 
 rules:
+ - DOMAIN-SUFFIX,etax.qingdao.chinatax.gov.cn,DIRECT
+ - DOMAIN-SUFFIX,hrsswb.qingdao.gov.cn,DIRECT
+ - DOMAIN-SUFFIX,chinaport.gov.cn,DIRECT
  - DOMAIN-SUFFIX,123pan.com,DIRECT
  - DOMAIN-SUFFIX,cjjd19.com,DIRECT
  - DOMAIN-SUFFIX,alipay,DIRECT
@@ -676,5 +679,6 @@ rule-providers:
     url: 'https://github.linkload.uk/https://raw.githubusercontent.com/Centralmatrix3/Matrix-io/refs/heads/master/Clash/Ruleset/ChinaASN.yaml'
 
     
+
 
 
