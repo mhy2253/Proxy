@@ -94,9 +94,16 @@ proxies:
     password: "eNlo@1g@%6gq7H9Y"
     udp: true
     udp-over-tcp: true
-    udp-over-tcp-version: 2
     ip-version: ipv6
-    
+  - name: "singapore"
+    type: ss
+    server: 757.929413105.cc
+    port: 443
+    cipher: chacha20-ietf-poly1305
+    password: "eNlo@1g@%6gq7H9Y2026"
+    udp: true
+    udp-over-tcp: true
+    ip-version: dual
     
    # 策略组
 
