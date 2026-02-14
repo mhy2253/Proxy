@@ -73,19 +73,6 @@ dns:
 # 代理节点
 
 proxies:  
-
-  - name: "osaka"
-    type: trojan
-    server: linkload.me
-    port: 443
-    password: xHvse7n9wLy#aBB$
-    client-fingerprint: chrome
-    udp: true
-    sin: linkload.me
-    alpn:
-      - h2
-      - http/1.1
-    skip-cert-verify: true
   - name: "sanjose"
     type: ss
     server: 64.929413105.cc
@@ -95,29 +82,16 @@ proxies:
     udp: true
     udp-over-tcp: true
     ip-version: ipv6
-  - name: "singapore"
-    type: ss
-    server: 757.929413105.cc
-    port: 57181
-    cipher: chacha20-ietf-poly1305
-    password: "eNlo@1g@%6gq7H9Y2026"
-    udp: true
-    udp-over-tcp: true
-    ip-version: dual
-    
    # 策略组
-
 proxy-groups: 
-
   - name: proxy
     type: url-test
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
     proxies:
-      #- osaka
       - sanjose
-      #- singapore
+
 
 rules:
  - DOMAIN-SUFFIX,etax.qingdao.chinatax.gov.cn,DIRECT
@@ -698,6 +672,7 @@ rule-providers:
     url: 'https://github.linkload.uk/https://raw.githubusercontent.com/Centralmatrix3/Matrix-io/refs/heads/master/Clash/Ruleset/ChinaASN.yaml'
 
     
+
 
 
 
