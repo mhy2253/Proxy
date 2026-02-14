@@ -74,7 +74,7 @@ dns:
 
 proxies:  
 
-  - name: "trojan"
+  - name: "osaka"
     type: trojan
     server: linkload.me
     port: 443
@@ -86,6 +86,16 @@ proxies:
       - h2
       - http/1.1
     skip-cert-verify: true
+  - name: "sanjose"
+    type: ss
+    server: 64.929413105.cc
+    port: 443
+    cipher: aes-128-gcm
+    password: "eNlo@1g@%6gq7H9Y"
+    udp: true
+    udp-over-tcp: true
+    udp-over-tcp-version: 2
+    ip-version: ipv6
     
     
    # 策略组
@@ -98,7 +108,7 @@ proxy-groups:
     interval: 300
     tolerance: 50
     proxies:
-      - trojan
+      - osaka
 
 rules:
  - DOMAIN-SUFFIX,etax.qingdao.chinatax.gov.cn,DIRECT
@@ -679,6 +689,7 @@ rule-providers:
     url: 'https://github.linkload.uk/https://raw.githubusercontent.com/Centralmatrix3/Matrix-io/refs/heads/master/Clash/Ruleset/ChinaASN.yaml'
 
     
+
 
 
 
