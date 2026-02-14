@@ -89,7 +89,7 @@ proxies:
   - name: "sanjose"
     type: ss
     server: 64.929413105.cc
-    port: 443
+    port: 12345
     cipher: aes-128-gcm
     password: "eNlo@1g@%6gq7H9Y"
     udp: true
@@ -98,7 +98,7 @@ proxies:
   - name: "singapore"
     type: ss
     server: 757.929413105.cc
-    port: 443
+    port: 57181
     cipher: chacha20-ietf-poly1305
     password: "eNlo@1g@%6gq7H9Y2026"
     udp: true
