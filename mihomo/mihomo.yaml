@@ -115,9 +115,9 @@ proxy-groups:
     interval: 300
     tolerance: 50
     proxies:
-      - osaka
+      #- osaka
       - sanjose
-      - singapore
+      #- singapore
 
 rules:
  - DOMAIN-SUFFIX,etax.qingdao.chinatax.gov.cn,DIRECT
