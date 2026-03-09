@@ -71,7 +71,6 @@ dns:
     
 
 # 代理节点
-
 proxies:  
   - name: "sanjose"
     type: ss
@@ -81,7 +80,7 @@ proxies:
     password: "eNlo@1g@%6gq7H9Y"
     udp: true
     udp-over-tcp: true
-    ip-version: ipv6
+    
    # 策略组
 proxy-groups: 
   - name: proxy
@@ -672,6 +671,7 @@ rule-providers:
     url: 'https://github.linkload.uk/https://raw.githubusercontent.com/Centralmatrix3/Matrix-io/refs/heads/master/Clash/Ruleset/ChinaASN.yaml'
 
     
+
 
 
 
