@@ -76,7 +76,7 @@ proxies:
     type: ss
     server: 64.929413105.cc
     port: 12345
-    cipher: aes-128-gcm
+    cipher: chacha20-ietf-poly1305
     password: "2026SyFeNlo@1g@%6gq7H9Y"
     
    # 策略组
