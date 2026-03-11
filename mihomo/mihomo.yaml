@@ -77,9 +77,7 @@ proxies:
     server: 64.929413105.cc
     port: 12345
     cipher: aes-128-gcm
-    password: "eNlo@1g@%6gq7H9Y"
-    udp: true
-    udp-over-tcp: true
+    password: "2026SyFeNlo@1g@%6gq7H9Y"
     
    # 策略组
 proxy-groups: 
