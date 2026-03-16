@@ -53,6 +53,8 @@ tun:
   auto-detect-interface: true
 
 dns:
+  prefer-h3: true
+  listen: 0.0.0.0:53
   enable: true
   ipv6: true
   enhanced-mode: fake-ip
@@ -62,11 +64,16 @@ dns:
     - "+.local"
     - "+.market.xiaomi.com"
   default-nameserver:
+    - 114.114.114.114
     - tls://223.5.5.5
     - tls://223.6.6.6
+    - system
   nameserver:
+    - 114.114.114.114
+    - tls://223.5.5.5
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
+    - https://dns.alidns.com/dns-query#h3=true
 proxies:
   - name: "ss"
     type: ss
@@ -136,8 +143,17 @@ proxy-grops:
 
 rules:
   - GEOIP,lan,direct,no-resolve
+  - GEOSITE,apple-intelligence,proxy
+  - GEOSITE,apple,direct
+  - GEOSITE,anthropic,proxy
+  - GEOSITE,perplexity,proxy
+  - GEOSITE,notion,proxy
+  - GEOSITE,discord,proxy
   - GEOSITE,github,proxy
   - GEOSITE,twitter,proxy
+  - GEOSITE,x,proxy
+  - GEOSITE,tiktok,proxy
+  - GEOSITE,dropbox,proxy
   - GEOSITE,youtube,proxy
   - GEOSITE,google,proxy
   - GEOSITE,telegram,proxy
