@@ -82,8 +82,6 @@ proxies:
     type: hysteria2
     server: server.com
     port: 443
-    # ports: 1000,2000-3000,5000 # port 不可省略
-    # hop-interval: 15
     #  up 和 down 均不写或为 0 则使用 BBR 流控
     # up: "30 Mbps" # 若不写单位，默认为 Mbps
     # down: "200 Mbps" # 若不写单位，默认为 Mbps
@@ -130,22 +128,22 @@ proxy-grops:
     
 
 rules:
-  - GEOIP,lan,直连,no-resolve
-  - GEOSITE,github,Github
-  - GEOSITE,twitter,Twitter
-  - GEOSITE,youtube,YouTube
-  - GEOSITE,google,Google
-  - GEOSITE,telegram,Telegram
-  - GEOSITE,netflix,NETFLIX
-  - GEOSITE,bilibili,哔哩哔哩
-  - GEOSITE,bahamut,巴哈姆特
-  - GEOSITE,spotify,Spotify
-  - GEOSITE,CN,国内
-  - GEOSITE,geolocation-!cn,其他
+  - GEOIP,lan,direct,no-resolve
+  - GEOSITE,github,proxy
+  - GEOSITE,twitter,proxy
+  - GEOSITE,youtube,proxy
+  - GEOSITE,google,proxy
+  - GEOSITE,telegram,proxy
+  - GEOSITE,netflix,proxy
+  - GEOSITE,bilibili,direct
+  - GEOSITE,bahamut,proxy
+  - GEOSITE,spotify,proxy
+  - GEOSITE,CN,direct
+  - GEOSITE,geolocation-!cn,proxy
 
-  - GEOIP,google,Google
-  - GEOIP,netflix,NETFLIX
-  - GEOIP,telegram,Telegram
-  - GEOIP,twitter,Twitter
-  - GEOIP,CN,国内
-  - MATCH,其他
+  - GEOIP,google,proxy
+  - GEOIP,netflix,proxy
+  - GEOIP,telegram,proxy
+  - GEOIP,twitter,proxy
+  - GEOIP,CN,direct
+  - MATCH,proxy
