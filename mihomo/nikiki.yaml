@@ -117,7 +117,7 @@ proxies:
        - http/1.1
     skip-cert-verify: true
 proxy-grops:
-  - name: "auto"
+  - name: "proxy"
     type: url-test
     proxies:
       - ss1
