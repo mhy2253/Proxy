@@ -65,9 +65,9 @@ sniffer:
     - "+.alipay.com"
     - "+.jd.com"
 
-  # QUIC/UDP 长连接（嗅探意义不大）
-  - "+.googlevideo.com"  # YouTube 视频流
-  - "+.akamaized.net"    # Akamai CDN
+    # QUIC/UDP 长连接（嗅探意义不大）
+    - "+.googlevideo.com"  # YouTube 视频流
+    - "+.akamaized.net"    # Akamai CDN
 
 tun:
   enable: true
