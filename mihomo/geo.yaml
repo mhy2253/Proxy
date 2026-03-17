@@ -13,10 +13,9 @@ geodata-loader: standard
 geo-auto-update: true
 geo-update-interval: 24
 tcp-concurrent: true
-find-process-mode: strict 
+find-process-mode: strict
 global-client-fingerprint: chrome
 
-geodata-mode: true
 geox-url:
   geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
   geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
@@ -50,6 +49,11 @@ tun:
   auto-route: true
   auto-redirect: true
   auto-detect-interface: true
+  exclude-cidr:
+    - 192.168.0.0/24
+    - 10.0.0.0/8
+    - 172.16.0.0/12
+    - 127.0.0.0/8
 
 dns:
   prefer-h3: false
@@ -63,7 +67,6 @@ dns:
     - "+.lan"
     - "+.local"
     - "localhost"
-
     # NTP 时间同步
     - "+.pool.ntp.org"
     - "time.*.com"
@@ -71,40 +74,38 @@ dns:
     - "time.*.edu.cn"
     - "ntp.*.com"
     - "ntp1.*.com"
-
     # Windows 网络检测
     - "+.msftconnecttest.com"
     - "dns.msftncsi.com"
     - "+.msftncsi.com"
-
     # Apple
     - "+.push.apple.com"
     - "+.apple.com.cn"
-
     # 腾讯 / QQ / 微信
     - "localhost.ptlogin2.qq.com"
     - "localhost.sec.qq.com"
-
     # 小米 / 米家
     - "+.market.xiaomi.com"
     - "ping.mi.com"
-
     # STUN / P2P
     - "+.stun.*.*"
     - "+.stun.*.*.*"
     - "stun.l.google.com"
-
+    # 游戏平台
+    - "+.srv.nintendo.net"
+    - "+.stun.playstation.net"
+    - "xbox.*.microsoft.com"
+    - "+.xboxlive.com"
+    - "+.logon.battlenet.com.cn"
+    - "+.logon.battle.net"
   default-nameserver:
-    - 114.114.114.114
     - tls://223.5.5.5
     - tls://223.6.6.6
-    - system
   nameserver:
-    - 114.114.114.114
     - tls://223.5.5.5
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
-    - https://dns.alidns.com/dns-query#h3=true
+
 proxies:
   - name: "ss"
     type: ss
@@ -112,6 +113,7 @@ proxies:
     port: 443
     cipher: chacha20-ietf-poly1305
     password: "password"
+
   - name: "trojan"
     type: trojan
     server: server
@@ -123,31 +125,31 @@ proxies:
       - h2
       - http/1.1
     skip-cert-verify: true
+
   - name: "hysteria2"
     type: hysteria2
     server: server.com
     port: 443
-    #  up 和 down 均不写或为 0 则使用 BBR 流控
-    # up: "30 Mbps" # 若不写单位，默认为 Mbps
-    # down: "200 Mbps" # 若不写单位，默认为 Mbps
     password: yourpassword
     sni: server.com
     skip-cert-verify: false
     alpn:
-       - h3
-  - name: tuic
+      - h3
+
+  - name: "tuic"
+    type: tuic
     server: www.example.com
     port: 10443
-    type: tuic
     uuid: 00000000-0000-0000-0000-000000000001
     password: PASSWORD_1
     disable-sni: true
     reduce-rtt: true
     request-timeout: 8000
-    udp-relay-mode: native # Available: "native", "quic". Default: "native"
+    udp-relay-mode: native
     fast-open: true
     skip-cert-verify: true
-  - name: anytls
+
+  - name: "anytls"
     type: anytls
     server: 1.2.3.4
     port: 443
@@ -156,9 +158,10 @@ proxies:
     udp: true
     sni: "example.com"
     alpn:
-       - h2
-       - http/1.1
+      - h2
+      - http/1.1
     skip-cert-verify: true
+
 proxy-groups:
   - name: "proxy"
     type: url-test
@@ -169,35 +172,35 @@ proxy-groups:
     url: "https://cp.cloudflare.com/generate_204"
     interval: 300
 
-
-    
-
 rules:
-  - GEOIP,lan,direct,no-resolve
-  - GEOSITE,apple-intelligence,proxy
-  - GEOSITE,apple,direct
+  - GEOIP,lan,DIRECT,no-resolve
+  # Apple
+  - GEOSITE,apple,DIRECT
+  # AI 服务
   - GEOSITE,anthropic,proxy
+  - GEOSITE,openai,proxy
   - GEOSITE,perplexity,proxy
+  # 常用代理
   - GEOSITE,notion,proxy
   - GEOSITE,discord,proxy
   - GEOSITE,github,proxy
   - GEOSITE,twitter,proxy
-  - GEOSITE,x,proxy
   - GEOSITE,tiktok,proxy
   - GEOSITE,dropbox,proxy
   - GEOSITE,youtube,proxy
   - GEOSITE,google,proxy
   - GEOSITE,telegram,proxy
   - GEOSITE,netflix,proxy
-  - GEOSITE,bilibili,direct
   - GEOSITE,bahamut,proxy
   - GEOSITE,spotify,proxy
-  - GEOSITE,CN,direct
+  # 直连
+  - GEOSITE,bilibili,DIRECT
+  - GEOSITE,CN,DIRECT
   - GEOSITE,geolocation-!cn,proxy
-
-  - GEOIP,google,proxy
-  - GEOIP,netflix,proxy
-  - GEOIP,telegram,proxy
-  - GEOIP,twitter,proxy
-  - GEOIP,CN,direct
+  # GEOIP 兜底（TUN 模式裸 IP 流量）
+  - GEOIP,google,proxy,no-resolve
+  - GEOIP,netflix,proxy,no-resolve
+  - GEOIP,telegram,proxy,no-resolve
+  - GEOIP,twitter,proxy,no-resolve
+  - GEOIP,CN,DIRECT,no-resolve
   - MATCH,proxy
