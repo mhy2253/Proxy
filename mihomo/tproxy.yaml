@@ -1,0 +1,227 @@
+mixed-port: 7890
+tproxy-port: 7893
+allow-lan: true
+mode: rule
+log-level: info
+ipv6: true
+udp: true
+external-controller: 127.0.0.1:9090
+external-ui: ui
+external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
+
+geodata-mode: true
+geodata-loader: standard
+geo-auto-update: true
+geo-update-interval: 24
+tcp-concurrent: true
+find-process-mode: strict
+global-client-fingerprint: chrome
+
+geox-url:
+  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
+  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
+  asn: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+sniffer:
+  enable: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  skip-domain:
+    - "Mijia Cloud"
+    - "+.push.apple.com"
+    - "+.lan"
+    - "+.local"
+    - "smoot.apple.com"
+    - "guzzoni.apple.com"
+    - "+.wechat.com"
+    - "+.weixin.qq.com"
+    - "+.servicewechat.com"
+    - "+.pool.ntp.org"
+    - "time.*.com"
+    - "+.srv.nintendo.net"
+    - "+.stun.playstation.net"
+    - "stun.l.google.com"
+    - "+.xboxlive.com"
+    - "+.bilibili.com"
+    - "+.hdslb.com"
+
+# tproxy 模式不需要 tun
+tun:
+  enable: false
+
+dns:
+  prefer-h3: false
+  listen: 0.0.0.0:53
+  enable: true
+  ipv6: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    # 本地/内网
+    - "+.lan"
+    - "+.local"
+    - "localhost"
+    # NTP 时间同步
+    - "+.pool.ntp.org"
+    - "time.*.com"
+    - "time.*.gov"
+    - "time.*.edu.cn"
+    - "ntp.*.com"
+    - "ntp1.*.com"
+    # Windows 网络检测
+    - "+.msftconnecttest.com"
+    - "dns.msftncsi.com"
+    - "+.msftncsi.com"
+    # Apple
+    - "+.push.apple.com"
+    - "+.apple.com.cn"
+    # 腾讯 / QQ / 微信
+    - "localhost.ptlogin2.qq.com"
+    - "localhost.sec.qq.com"
+    # 小米 / 米家
+    - "+.market.xiaomi.com"
+    - "ping.mi.com"
+    # STUN / P2P
+    - "+.stun.*.*"
+    - "+.stun.*.*.*"
+    - "stun.l.google.com"
+    # 游戏平台
+    - "+.srv.nintendo.net"
+    - "+.stun.playstation.net"
+    - "+.xboxlive.com"
+    - "+.logon.battlenet.com.cn"
+    - "+.logon.battle.net"
+
+  default-nameserver:
+    - tls://223.5.5.5
+    - tls://223.6.6.6
+  nameserver:
+    - tls://223.5.5.5
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+
+proxies:
+  - name: "ss"
+    type: ss
+    server: server
+    port: 443
+    cipher: chacha20-ietf-poly1305
+    password: "password"
+
+  - name: "trojan"
+    type: trojan
+    server: server
+    port: 443
+    password: yourpsk
+    udp: true
+    sni: example.com
+    alpn:
+      - h2
+      - http/1.1
+    skip-cert-verify: true
+
+  - name: "hysteria2"
+    type: hysteria2
+    server: server.com
+    port: 443
+    password: yourpassword
+    sni: server.com
+    skip-cert-verify: false
+    alpn:
+      - h3
+
+  - name: "tuic"
+    type: tuic
+    server: www.example.com
+    port: 10443
+    uuid: 00000000-0000-0000-0000-000000000001
+    password: PASSWORD_1
+    disable-sni: true
+    reduce-rtt: true
+    request-timeout: 8000
+    udp-relay-mode: native
+    fast-open: true
+    skip-cert-verify: true
+
+  - name: "anytls"
+    type: anytls
+    server: 1.2.3.4
+    port: 443
+    password: "<your password>"
+    client-fingerprint: chrome
+    udp: true
+    sni: "example.com"
+    alpn:
+      - h2
+      - http/1.1
+    skip-cert-verify: true
+
+proxy-groups:
+  - name: "proxy"
+    type: url-test
+    proxies:
+      - ss
+      - trojan
+      - hysteria2
+      - tuic
+      - anytls
+    url: "https://cp.cloudflare.com/generate_204"
+    interval: 300
+    tolerance: 50
+
+rules:
+  - GEOIP,lan,DIRECT,no-resolve
+  # Apple Intelligence
+  - GEOSITE,apple-intelligence,proxy
+  - DOMAIN-SUFFIX,smoot.apple.com,proxy
+  - DOMAIN-SUFFIX,guzzoni.apple.com,proxy
+  - DOMAIN-SUFFIX,apps.mzstatic.com,proxy
+  - DOMAIN-SUFFIX,cp4.cloudflare.com,proxy
+  # Apple
+  - GEOSITE,apple,DIRECT
+  # AI 服务
+  - GEOSITE,anthropic,proxy
+  - GEOSITE,openai,proxy
+  - GEOSITE,perplexity,proxy
+  # 微信
+  - DOMAIN-SUFFIX,wechat.com,DIRECT
+  - DOMAIN-SUFFIX,weixin.qq.com,DIRECT
+  - DOMAIN-SUFFIX,servicewechat.com,DIRECT
+  - DOMAIN-SUFFIX,weixin.com,DIRECT
+  - IP-ASN,45090,DIRECT,no-resolve
+  - IP-ASN,132203,DIRECT,no-resolve
+  # 常用代理
+  - GEOSITE,notion,proxy
+  - GEOSITE,discord,proxy
+  - GEOSITE,github,proxy
+  - GEOSITE,twitter,proxy
+  - GEOSITE,tiktok,proxy
+  - GEOSITE,dropbox,proxy
+  - GEOSITE,youtube,proxy
+  - GEOSITE,google,proxy
+  - GEOSITE,telegram,proxy
+  - GEOSITE,netflix,proxy
+  - GEOSITE,bahamut,proxy
+  - GEOSITE,spotify,proxy
+  # 直连
+  - GEOSITE,bilibili,DIRECT
+  - GEOSITE,CN,DIRECT
+  - GEOSITE,geolocation-!cn,proxy
+  # GEOIP 兜底
+  - GEOIP,google,proxy,no-resolve
+  - GEOIP,netflix,proxy,no-resolve
+  - GEOIP,telegram,proxy,no-resolve
+  - GEOIP,twitter,proxy,no-resolve
+  - GEOIP,CN,DIRECT,no-resolve
+  - MATCH,proxy
