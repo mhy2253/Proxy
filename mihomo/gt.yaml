@@ -6,7 +6,7 @@ ipv6: true
 udp: true
 external-controller: 127.0.0.1:9090
 external-ui: ui
-external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
+external-ui-url: "https://123456.929413105.cc/https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
 
 geodata-mode: true
 geodata-loader: standard
@@ -17,10 +17,10 @@ find-process-mode: strict
 global-client-fingerprint: chrome
 
 geox-url:
-  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
-  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
-  mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
-  asn: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+  geoip: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
+  geosite: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
+  asn: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
 
 profile:
   store-selected: true
