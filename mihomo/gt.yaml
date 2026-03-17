@@ -37,8 +37,37 @@ sniffer:
     QUIC:
       ports: [443, 8443]
   skip-domain:
+    # 原有
     - "Mijia Cloud"
     - "+.push.apple.com"
+    - "+.lan"
+    - "+.local"
+    - "smoot.apple.com"
+    - "guzzoni.apple.com"
+    - "+.wechat.com"
+    - "+.weixin.qq.com"
+    - "+.servicewechat.com"
+
+    # NTP（时间同步不需要嗅探）
+    - "+.pool.ntp.org"
+    - "time.*.com"
+
+    # 游戏平台（STUN/P2P 长连接）
+    - "+.srv.nintendo.net"
+    - "+.stun.playstation.net"
+    - "stun.l.google.com"
+    - "+.xboxlive.com"
+
+    # 国内直连 APP
+    - "+.bilibili.com"
+    - "+.hdslb.com"        # B站 CDN
+    - "+.taobao.com"
+    - "+.alipay.com"
+    - "+.jd.com"
+
+  # QUIC/UDP 长连接（嗅探意义不大）
+  - "+.googlevideo.com"  # YouTube 视频流
+  - "+.akamaized.net"    # Akamai CDN
 
 tun:
   enable: true
@@ -194,6 +223,7 @@ rules:
   - GEOSITE,openai,proxy
   - GEOSITE,perplexity,proxy
   # 常用代理
+  - GEOSITE,microsoft,DIRECT
   - GEOSITE,notion,proxy
   - GEOSITE,discord,proxy
   - GEOSITE,github,proxy
