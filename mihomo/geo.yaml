@@ -8,7 +8,6 @@ external-controller: 127.0.0.1:9090
 external-ui: ui
 external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
 
-unified-delay: true
 geodata-mode: true
 geodata-loader: standard
 geo-auto-update: true
@@ -53,7 +52,7 @@ tun:
   auto-detect-interface: true
 
 dns:
-  prefer-h3: true
+  prefer-h3: false
   listen: 0.0.0.0:53
   enable: true
   ipv6: true
@@ -128,7 +127,7 @@ proxies:
        - h2
        - http/1.1
     skip-cert-verify: true
-proxy-grops:
+proxy-groups:
   - name: "proxy"
     type: url-test
     proxies:
