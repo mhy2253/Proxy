@@ -43,6 +43,10 @@
         "server": "default"
       },
       {
+        "query_type": ["HTTPS", "SVCB"],
+        "action": "reject"
+      },
+      {
         "rule_set": ["geosite-geolocation-!cn"],
         "action": "route",
         "server": "fake-ip"
@@ -127,6 +131,7 @@
       },
       {
         "ip_is_private": true,
+        "action": "route",
         "outbound": "direct"
       },
       {
@@ -136,6 +141,7 @@
           "servicewechat.com",
           "weixin.com"
         ],
+        "action": "route",
         "outbound": "direct"
       },
       {
@@ -156,18 +162,22 @@
           "geosite-bahamut",
           "geosite-spotify"
         ],
+        "action": "route",
         "outbound": "proxy"
       },
       {
         "rule_set": "geosite-bilibili",
+        "action": "route",
         "outbound": "direct"
       },
       {
         "rule_set": "geosite-cn",
+        "action": "route",
         "outbound": "direct"
       },
       {
         "rule_set": "geosite-geolocation-!cn",
+        "action": "route",
         "outbound": "proxy"
       },
       {
@@ -177,10 +187,12 @@
           "geoip-telegram",
           "geoip-twitter"
         ],
+        "action": "route",
         "outbound": "proxy"
       },
       {
         "rule_set": "geoip-cn",
+        "action": "route",
         "outbound": "direct"
       }
     ],
@@ -347,16 +359,15 @@
         "download_detour": "proxy"
       }
     ],
-    "final": "proxy"
+    "final": "proxy",
+    "default_domain_resolver": "bootstrap"
   },
 
   "experimental": {
     "clash_api": {
       "external_controller": "127.0.0.1:9090",
       "external_ui": "ui",
-      "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
-      "store_selected": true,
-      "store_fakeip": true
+      "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
     },
     "cache_file": {
       "enabled": true,
