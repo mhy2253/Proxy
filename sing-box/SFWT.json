@@ -7,30 +7,29 @@
   "dns": {
     "servers": [
       {
-        "type": "udp",
         "tag": "bootstrap",
-        "server": "223.5.5.5"
-      },
-      {
-        "type": "tls",
-        "tag": "default",
+        "type": "udp",
         "server": "223.5.5.5",
-        "domain_resolver": "bootstrap"
+        "detour": "direct"
       },
       {
-        "type": "fakeip",
+        "tag": "default",
+        "type": "tls",
+        "server": "223.5.5.5",
+        "domain_resolver": "bootstrap",
+        "detour": "direct"
+      },
+      {
         "tag": "fake-ip",
+        "type": "fakeip",
         "inet4_range": "198.18.0.0/16",
         "inet6_range": "fc00::/18"
       }
     ],
     "rules": [
       {
-        "outbound": "any",
-        "server": "bootstrap"
-      },
-      {
         "rule_set": ["geosite-cn"],
+        "action": "route",
         "server": "default"
       },
       {
@@ -40,10 +39,16 @@
           "servicewechat.com",
           "weixin.com"
         ],
+        "action": "route",
         "server": "default"
       },
       {
+        "query_type": ["HTTPS", "SVCB"],
+        "action": "reject"
+      },
+      {
         "rule_set": ["geosite-geolocation-!cn"],
+        "action": "route",
         "server": "fake-ip"
       }
     ],
@@ -62,8 +67,7 @@
       "mtu": 9000,
       "auto_route": true,
       "strict_route": true,
-      "stack": "mixed",
-      "sniff": true
+      "stack": "mixed"
     },
     {
       "type": "mixed",
@@ -77,24 +81,16 @@
     {
       "type": "selector",
       "tag": "proxy",
-      "outbounds": ["auto", "ss", "trojan", "hysteria2", "tuic", "anytls"],
+      "outbounds": ["auto", "trojan", "anytls", "ss"],
       "default": "auto"
     },
     {
       "type": "urltest",
       "tag": "auto",
-      "outbounds": ["ss", "trojan", "hysteria2", "tuic", "anytls"],
+      "outbounds": ["trojan", "anytls", "ss"],
       "url": "https://cp.cloudflare.com/generate_204",
       "interval": "5m",
       "tolerance": 50
-    },
-    {
-      "type": "shadowsocks",
-      "tag": "ss",
-      "server": "server",
-      "server_port": 443,
-      "method": "chacha20-ietf-poly1305",
-      "password": "password"
     },
     {
       "type": "trojan",
@@ -110,47 +106,25 @@
       }
     },
     {
-      "type": "hysteria2",
-      "tag": "hysteria2",
-      "server": "server.com",
-      "server_port": 443,
-      "password": "yourpassword",
-      "tls": {
-        "enabled": true,
-        "server_name": "server.com",
-        "alpn": ["h3"],
-        "insecure": false
-      }
-    },
-    {
-      "type": "tuic",
-      "tag": "tuic",
-      "server": "www.example.com",
-      "server_port": 10443,
-      "uuid": "00000000-0000-0000-0000-000000000001",
-      "password": "PASSWORD_1",
-      "congestion_control": "bbr",
-      "udp_relay_mode": "native",
-      "zero_rtt_handshake": true,
-      "tls": {
-        "enabled": true,
-        "disable_sni": true,
-        "alpn": ["h3"],
-        "insecure": true
-      }
-    },
-    {
       "type": "anytls",
       "tag": "anytls",
       "server": "1.2.3.4",
       "server_port": 443,
-      "password": "<your password>",
+      "password": "your_password",
       "tls": {
         "enabled": true,
         "server_name": "example.com",
         "alpn": ["h2", "http/1.1"],
         "insecure": true
       }
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "ss",
+      "server": "server",
+      "server_port": 443,
+      "method": "chacha20-ietf-poly1305",
+      "password": "password"
     },
     {
       "type": "direct",
@@ -179,26 +153,6 @@
           "servicewechat.com",
           "weixin.com"
         ],
-        "action": "route",
-        "outbound": "direct"
-      },
-      {
-        "rule_set": "geosite-apple-intelligence",
-        "action": "route",
-        "outbound": "proxy"
-      },
-      {
-        "domain_suffix": [
-          "smoot.apple.com",
-          "guzzoni.apple.com",
-          "apps.mzstatic.com",
-          "cp4.cloudflare.com"
-        ],
-        "action": "route",
-        "outbound": "proxy"
-      },
-      {
-        "rule_set": "geosite-apple",
         "action": "route",
         "outbound": "direct"
       },
@@ -255,20 +209,6 @@
       }
     ],
     "rule_set": [
-      {
-        "tag": "geosite-apple-intelligence",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/apple-intelligence.srs",
-        "download_detour": "proxy"
-      },
-      {
-        "tag": "geosite-apple",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/apple.srs",
-        "download_detour": "proxy"
-      },
       {
         "tag": "geosite-anthropic",
         "type": "remote",
@@ -432,15 +372,18 @@
       }
     ],
     "final": "proxy",
-    "auto_detect_interface": true
+    "auto_detect_interface": true,
+    "default_domain_resolver": "bootstrap"
   },
 
   "experimental": {
     "clash_api": {
       "external_controller": "127.0.0.1:9090",
       "external_ui": "ui",
-      "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
-      "store_selected": true,
+      "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
+    },
+    "cache_file": {
+      "enabled": true,
       "store_fakeip": true
     }
   }
