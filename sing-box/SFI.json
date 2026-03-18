@@ -9,13 +9,14 @@
       {
         "type": "udp",
         "tag": "bootstrap",
-        "server": "223.5.5.5"
+        "server": "223.5.5.5",
+        "server_port": 53
       },
       {
         "type": "tls",
-        "tag": "default",
+        "tag": "dns-remote",
         "server": "223.5.5.5",
-        "domain_resolver": "bootstrap"
+        "server_port": 853
       },
       {
         "type": "fakeip",
@@ -27,7 +28,8 @@
     "rules": [
       {
         "rule_set": ["geosite-cn"],
-        "server": "default"
+        "action": "route",
+        "server": "dns-remote"
       },
       {
         "domain_suffix": [
@@ -36,15 +38,21 @@
           "servicewechat.com",
           "weixin.com"
         ],
-        "server": "default"
+        "action": "route",
+        "server": "dns-remote"
+      },
+      {
+        "query_type": ["HTTPS", "SVCB"],
+        "action": "reject"
       },
       {
         "rule_set": ["geosite-geolocation-!cn"],
+        "action": "route",
         "server": "fake-ip"
       }
     ],
     "independent_cache": true,
-    "final": "default"
+    "final": "dns-remote"
   },
 
   "inbounds": [
@@ -55,10 +63,9 @@
         "172.19.0.1/30",
         "fdfe:dcba:9876::1/126"
       ],
-      "mtu": 9000,
+      "mtu": 1400,
       "auto_route": true,
       "stack": "mixed",
-      "sniff": true,
       "platform": {
         "http_proxy": {
           "enabled": true,
@@ -73,21 +80,24 @@
     {
       "type": "selector",
       "tag": "proxy",
-      "outbounds": ["auto", "ss", "trojan", "hysteria2", "tuic", "anytls"],
-      "default": "auto"
+      "outbounds": ["auto", "ss", "trojan", "anytls", "direct"],
+      "default": "auto",
+      "interrupt_exist_connections": true
     },
     {
       "type": "urltest",
       "tag": "auto",
-      "outbounds": ["ss", "trojan", "hysteria2", "tuic", "anytls"],
-      "url": "https://cp.cloudflare.com/generate_204",
+      "outbounds": ["ss", "trojan", "anytls"],
+      "url": "https://www.gstatic.com/generate_204",
       "interval": "5m",
-      "tolerance": 50
+      "tolerance": 50,
+      "idle_timeout": "30m",
+      "interrupt_exist_connections": true
     },
     {
       "type": "shadowsocks",
       "tag": "ss",
-      "server": "server",
+      "server": "ss.example.com",
       "server_port": 443,
       "method": "chacha20-ietf-poly1305",
       "password": "password"
@@ -95,7 +105,7 @@
     {
       "type": "trojan",
       "tag": "trojan",
-      "server": "server",
+      "server": "trojan.example.com",
       "server_port": 443,
       "password": "yourpsk",
       "tls": {
@@ -106,41 +116,14 @@
       }
     },
     {
-      "type": "hysteria2",
-      "tag": "hysteria2",
-      "server": "server.com",
-      "server_port": 443,
-      "password": "yourpassword",
-      "tls": {
-        "enabled": true,
-        "server_name": "server.com",
-        "alpn": ["h3"],
-        "insecure": false
-      }
-    },
-    {
-      "type": "tuic",
-      "tag": "tuic",
-      "server": "www.example.com",
-      "server_port": 10443,
-      "uuid": "00000000-0000-0000-0000-000000000001",
-      "password": "PASSWORD_1",
-      "congestion_control": "bbr",
-      "udp_relay_mode": "native",
-      "zero_rtt_handshake": true,
-      "tls": {
-        "enabled": true,
-        "disable_sni": true,
-        "alpn": ["h3"],
-        "insecure": true
-      }
-    },
-    {
       "type": "anytls",
       "tag": "anytls",
       "server": "1.2.3.4",
       "server_port": 443,
-      "password": "<your password>",
+      "password": "your-password",
+      "idle_session_check_interval": "30s",
+      "idle_session_timeout": "30s",
+      "min_idle_session": 0,
       "tls": {
         "enabled": true,
         "server_name": "example.com",
@@ -155,6 +138,7 @@
   ],
 
   "route": {
+    "default_domain_resolver": "dns-remote",
     "rules": [
       {
         "action": "sniff"
@@ -427,7 +411,13 @@
         "download_detour": "proxy"
       }
     ],
-    "final": "proxy",
-    "auto_detect_interface": true
+    "final": "proxy"
+  },
+
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "store_fakeip": true
+    }
   }
 }
