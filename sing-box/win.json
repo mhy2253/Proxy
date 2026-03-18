@@ -7,18 +7,26 @@
   "dns": {
     "servers": [
       {
+        "tag": "bootstrap",
+        "address": "223.5.5.5",
+        "detour": "direct"
+      },
+      {
         "tag": "default",
         "address": "tls://223.5.5.5",
+        "address_resolver": "bootstrap",
         "detour": "direct"
       },
       {
         "tag": "alidns",
         "address": "https://dns.alidns.com/dns-query",
+        "address_resolver": "bootstrap",
         "detour": "direct"
       },
       {
         "tag": "dnspub",
         "address": "https://doh.pub/dns-query",
+        "address_resolver": "bootstrap",
         "detour": "direct"
       },
       {
@@ -29,27 +37,23 @@
     "rules": [
       {
         "outbound": "any",
-        "server": "default"
-      },
-      {
-        "clash_mode": "direct",
-        "server": "default"
-      },
-      {
-        "clash_mode": "global",
-        "server": "fake-ip"
+        "server": "bootstrap"
       },
       {
         "rule_set": ["geosite-cn"],
         "server": "default"
       },
       {
-        "type": "logical",
-        "mode": "and",
-        "rules": [
-          { "rule_set": "geosite-geolocation-!cn" },
-          { "rule_set": "geosite-geolocation-!cn" }
+        "domain_suffix": [
+          "wechat.com",
+          "weixin.qq.com",
+          "servicewechat.com",
+          "weixin.com"
         ],
+        "server": "default"
+      },
+      {
+        "rule_set": ["geosite-geolocation-!cn"],
         "server": "fake-ip"
       }
     ],
@@ -59,15 +63,17 @@
       "inet6_range": "fc00::/18"
     },
     "independent_cache": true,
-    "final": "fake-ip"
+    "final": "default"
   },
 
   "inbounds": [
     {
       "type": "tun",
       "tag": "tun-in",
-      "inet4_address": "172.19.0.1/30",
-      "inet6_address": "fdfe:dcba:9876::1/126",
+      "address": [
+        "172.19.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
       "mtu": 9000,
       "auto_route": true,
       "strict_route": true,
@@ -85,8 +91,14 @@
 
   "outbounds": [
     {
-      "type": "urltest",
+      "type": "selector",
       "tag": "proxy",
+      "outbounds": ["auto", "ss", "trojan", "hysteria2", "tuic", "anytls"],
+      "default": "auto"
+    },
+    {
+      "type": "urltest",
+      "tag": "auto",
       "outbounds": ["ss", "trojan", "hysteria2", "tuic", "anytls"],
       "url": "https://cp.cloudflare.com/generate_204",
       "interval": "5m",
@@ -159,29 +171,26 @@
     {
       "type": "direct",
       "tag": "direct"
-    },
-    {
-      "type": "block",
-      "tag": "block"
-    },
-    {
-      "type": "dns",
-      "tag": "dns-out"
     }
   ],
 
   "route": {
     "rules": [
       {
-        "type": "logical",
-        "mode": "or",
-        "rules": [
-          { "protocol": "dns" }
-        ],
-        "outbound": "dns-out"
+        "protocol": "dns",
+        "action": "hijack-dns"
       },
       {
         "ip_is_private": true,
+        "outbound": "direct"
+      },
+      {
+        "domain_suffix": [
+          "wechat.com",
+          "weixin.qq.com",
+          "servicewechat.com",
+          "weixin.com"
+        ],
         "outbound": "direct"
       },
       {
@@ -220,19 +229,6 @@
           "geosite-spotify"
         ],
         "outbound": "proxy"
-      },
-      {
-        "domain_suffix": [
-          "wechat.com",
-          "weixin.qq.com",
-          "servicewechat.com",
-          "weixin.com"
-        ],
-        "outbound": "direct"
-      },
-      {
-        "asn": [45090, 132203],
-        "outbound": "direct"
       },
       {
         "rule_set": "geosite-bilibili",
