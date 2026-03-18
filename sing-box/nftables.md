@@ -59,7 +59,6 @@ table inet sing-box {
         meta l4proto { tcp, udp } meta mark set 1
     }
 }
-
 ```
 
 ## 路由规则（开机自动执行）
