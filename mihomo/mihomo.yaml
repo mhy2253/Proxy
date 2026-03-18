@@ -1,17 +1,15 @@
 mixed-port: 7890
-allow-lan: true
 mode: rule
 log-level: info
 ipv6: true
 udp: true
 
 geodata-mode: true
-geodata-loader: standard
+geodata-loader: memconservative
 geo-auto-update: true
 geo-update-interval: 24
 tcp-concurrent: true
 find-process-mode: strict
-global-client-fingerprint: chrome
 
 geox-url:
   geoip: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
@@ -44,8 +42,8 @@ tun:
     - "any:53"
     - "tcp://any:53"
   auto-route: true
-  auto-redirect: true
   auto-detect-interface: true
+  strict-route: true
   exclude-cidr:
     - 192.168.0.0/24
     - 10.0.0.0/8
@@ -53,67 +51,80 @@ tun:
     - 127.0.0.0/8
 
 dns:
-  prefer-h3: false
-  listen: 0.0.0.0:53
   enable: true
+  listen: 0.0.0.0:1053
   ipv6: true
+  prefer-h3: false
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
+  fake-ip-filter-mode: blacklist
   fake-ip-filter:
-    # 本地/内网
-    - "+.lan"
-    - "+.local"
+    - "*.lan"
+    - "*.local"
     - "localhost"
-    # NTP 时间同步
-    - "+.pool.ntp.org"
+    - "*.pool.ntp.org"
     - "time.*.com"
     - "time.*.gov"
     - "time.*.edu.cn"
     - "ntp.*.com"
     - "ntp1.*.com"
-    # Windows 网络检测
-    - "+.msftconnecttest.com"
+    - "*.msftconnecttest.com"
     - "dns.msftncsi.com"
-    - "+.msftncsi.com"
-    # Apple
-    - "+.push.apple.com"
-    - "+.apple.com.cn"
-    # 腾讯 / QQ / 微信
+    - "*.msftncsi.com"
+    - "*.push.apple.com"
+    - "*.apple.com.cn"
     - "localhost.ptlogin2.qq.com"
     - "localhost.sec.qq.com"
-    # 小米 / 米家
-    - "+.market.xiaomi.com"
+    - "*.market.xiaomi.com"
     - "ping.mi.com"
-    # STUN / P2P
-    - "+.stun.*.*"
-    - "+.stun.*.*.*"
     - "stun.l.google.com"
-    # 游戏平台
-    - "+.srv.nintendo.net"
-    - "+.stun.playstation.net"
-    - "xbox.*.microsoft.com"
-    - "+.xboxlive.com"
-    - "+.logon.battlenet.com.cn"
-    - "+.logon.battle.net"
+    - "*.srv.nintendo.net"
+    - "*.stun.playstation.net"
+    - "*.xboxlive.com"
+    - "*.logon.battlenet.com.cn"
+    - "*.logon.battle.net"
+
   default-nameserver:
     - tls://223.5.5.5
     - tls://223.6.6.6
+
   nameserver:
     - tls://223.5.5.5
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
-    
-# 代理节点
-proxies:  
+
+  proxy-server-nameserver:
+    - tls://223.5.5.5
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+
+  fallback:
+    - tls://1.1.1.1
+    - tls://8.8.4.4
+
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    geosite:
+      - gfw
+    domain:
+      - "+.google.com"
+      - "+.youtube.com"
+      - "+.twitter.com"
+      - "+.x.com"
+      - "+.openai.com"
+      - "+.chatgpt.com"
+      - "+.anthropic.com"
+
+proxies:
   - name: "sanjose"
     type: ss
     server: 64.929413105.cc
     port: 12345
     cipher: chacha20-ietf-poly1305
-    password: "2026SyFeNlo@1g@%6gq7H9Y"
-    
-   # 策略组
-proxy-groups: 
+    password: "REDACTED"
+
+proxy-groups:
   - name: proxy
     type: url-test
     url: http://www.gstatic.com/generate_204
@@ -124,6 +135,7 @@ proxy-groups:
 
 rules:
   - GEOIP,lan,DIRECT,no-resolve
+
   # 微信
   - DOMAIN-SUFFIX,wechat.com,DIRECT
   - DOMAIN-SUFFIX,weixin.qq.com,DIRECT
@@ -131,18 +143,22 @@ rules:
   - DOMAIN-SUFFIX,weixin.com,DIRECT
   - IP-ASN,45090,DIRECT,no-resolve
   - IP-ASN,132203,DIRECT,no-resolve
-  # Apple智能
+
+  # Apple Intelligence
   - GEOSITE,apple-intelligence,proxy
   - DOMAIN-SUFFIX,smoot.apple.com,proxy
   - DOMAIN-SUFFIX,guzzoni.apple.com,proxy
   - DOMAIN-SUFFIX,apps.mzstatic.com,proxy
   - DOMAIN-SUFFIX,cp4.cloudflare.com,proxy
-  # Apple
+
+  # Apple 常规直连
   - GEOSITE,apple,DIRECT
-  # AI 服务
+
+  # AI
   - GEOSITE,anthropic,proxy
   - GEOSITE,openai,proxy
   - GEOSITE,perplexity,proxy
+
   # 常用代理
   - GEOSITE,notion,proxy
   - GEOSITE,discord,proxy
@@ -156,18 +172,19 @@ rules:
   - GEOSITE,netflix,proxy
   - GEOSITE,bahamut,proxy
   - GEOSITE,spotify,proxy
+
   # 直连
   - GEOSITE,bilibili,DIRECT
   - GEOSITE,CN,DIRECT
+
+  # 国外兜底域名
   - GEOSITE,geolocation-!cn,proxy
-  # GEOIP 兜底（TUN 模式裸 IP 流量）
+
+  # TUN 裸 IP 兜底
   - GEOIP,google,proxy,no-resolve
   - GEOIP,netflix,proxy,no-resolve
   - GEOIP,telegram,proxy,no-resolve
   - GEOIP,twitter,proxy,no-resolve
   - GEOIP,CN,DIRECT,no-resolve
+
   - MATCH,proxy
-
-
-
-
