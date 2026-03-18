@@ -84,27 +84,33 @@
 ],
 
   "outbounds": [
-    {
-      "type": "urltest",
-      "tag": "proxy",
-      "outbounds": ["sanjose"],
-      "url": "https://cp.cloudflare.com/generate_204",
-      "interval": "5m",
-      "tolerance": 50
-    },
-    {
-      "type": "shadowsocks",
-      "tag": "sanjose",
-      "server": "12356778885.cc",
-      "server_port": 12345,
-      "method": "chacha20-ietf-poly1305",
-      "password": "2026SyFeNlo@1g@%6gq7H9Y"
-    },
-    {
-      "type": "direct",
-      "tag": "direct"
-    }
-  ],
+  {
+    "type": "selector",
+    "tag": "proxy",
+    "outbounds": ["auto", "sanjose"],
+    "default": "auto"
+  },
+  {
+    "type": "urltest",
+    "tag": "auto",
+    "outbounds": ["sanjose"],
+    "url": "https://cp.cloudflare.com/generate_204",
+    "interval": "5m",
+    "tolerance": 50
+  },
+  {
+    "type": "shadowsocks",
+    "tag": "sanjose",
+    "server": "64.929413105.cc",
+    "server_port": 12345,
+    "method": "chacha20-ietf-poly1305",
+    "password": "2026SyFeNlo@1g@%6gq7H9Y"
+  },
+  {
+    "type": "direct",
+    "tag": "direct"
+  }
+],
 
   "route": {
     "rules": [
