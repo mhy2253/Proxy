@@ -1,5 +1,5 @@
-还需要配置 nftables
-sing-box 只监听 tproxy 端口，流量重定向需要 nftables 规则，保存为 /etc/nftables.d/sing-box.nft：
+## 还需要配置 nftables
+- sing-box 只监听 tproxy 端口，流量重定向需要 nftables 规则，保存为 /etc/nftables.d/sing-box.nft：
 
 ```
 table inet sing-box {
