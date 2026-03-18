@@ -7,19 +7,21 @@
   "dns": {
     "servers": [
       {
+        "type": "udp",
         "tag": "bootstrap",
-        "address": "223.5.5.5",
-        "detour": "direct"
+        "server": "223.5.5.5"
       },
       {
+        "type": "tls",
         "tag": "default",
-        "address": "tls://223.5.5.5",
-        "address_resolver": "bootstrap",
-        "detour": "direct"
+        "server": "223.5.5.5",
+        "domain_resolver": "bootstrap"
       },
       {
+        "type": "fakeip",
         "tag": "fake-ip",
-        "address": "fakeip"
+        "inet4_range": "198.18.0.0/16",
+        "inet6_range": "fc00::/18"
       }
     ],
     "rules": [
@@ -45,59 +47,116 @@
         "server": "fake-ip"
       }
     ],
-    "fakeip": {
-      "enabled": true,
-      "inet4_range": "198.18.0.0/16",
-      "inet6_range": "fc00::/18"
-    },
     "independent_cache": true,
     "final": "default"
   },
 
   "inbounds": [
-  {
-    "type": "tun",
-    "tag": "tun-in",
-    "address": [
-      "172.19.0.1/30",
-      "fdfe:dcba:9876::1/126"
-    ],
-    "mtu": 9000,
-    "auto_route": true,
-    "stack": "mixed",
-    "sniff": true,
-    "sniff_override_destination": true
-  }
-],
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "address": [
+        "172.19.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
+      "mtu": 9000,
+      "auto_route": true,
+      "stack": "mixed",
+      "sniff": true,
+      "platform": {
+        "http_proxy": {
+          "enabled": true,
+          "server": "127.0.0.1",
+          "server_port": 7890
+        }
+      }
+    }
+  ],
 
   "outbounds": [
-  {
-    "type": "selector",
-    "tag": "proxy",
-    "outbounds": ["auto", "sanjose"],
-    "default": "auto"
-  },
-  {
-    "type": "urltest",
-    "tag": "auto",
-    "outbounds": ["sanjose"],
-    "url": "https://cp.cloudflare.com/generate_204",
-    "interval": "5m",
-    "tolerance": 50
-  },
-  {
-    "type": "shadowsocks",
-    "tag": "sanjose",
-    "server": "64.929413105.cc",
-    "server_port": 12345,
-    "method": "chacha20-ietf-poly1305",
-    "password": "2026SyFeNlo@1g@%6gq7H9Y"
-  },
-  {
-    "type": "direct",
-    "tag": "direct"
-  }
-],
+    {
+      "type": "selector",
+      "tag": "proxy",
+      "outbounds": ["auto", "ss", "trojan", "hysteria2", "tuic", "anytls"],
+      "default": "auto"
+    },
+    {
+      "type": "urltest",
+      "tag": "auto",
+      "outbounds": ["ss", "trojan", "hysteria2", "tuic", "anytls"],
+      "url": "https://cp.cloudflare.com/generate_204",
+      "interval": "5m",
+      "tolerance": 50
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "ss",
+      "server": "server",
+      "server_port": 443,
+      "method": "chacha20-ietf-poly1305",
+      "password": "password"
+    },
+    {
+      "type": "trojan",
+      "tag": "trojan",
+      "server": "server",
+      "server_port": 443,
+      "password": "yourpsk",
+      "tls": {
+        "enabled": true,
+        "server_name": "example.com",
+        "alpn": ["h2", "http/1.1"],
+        "insecure": true
+      }
+    },
+    {
+      "type": "hysteria2",
+      "tag": "hysteria2",
+      "server": "server.com",
+      "server_port": 443,
+      "password": "yourpassword",
+      "tls": {
+        "enabled": true,
+        "server_name": "server.com",
+        "alpn": ["h3"],
+        "insecure": false
+      }
+    },
+    {
+      "type": "tuic",
+      "tag": "tuic",
+      "server": "www.example.com",
+      "server_port": 10443,
+      "uuid": "00000000-0000-0000-0000-000000000001",
+      "password": "PASSWORD_1",
+      "congestion_control": "bbr",
+      "udp_relay_mode": "native",
+      "zero_rtt_handshake": true,
+      "tls": {
+        "enabled": true,
+        "disable_sni": true,
+        "alpn": ["h3"],
+        "insecure": true
+      }
+    },
+    {
+      "type": "anytls",
+      "tag": "anytls",
+      "server": "1.2.3.4",
+      "server_port": 443,
+      "password": "<your password>",
+      "tls": {
+        "enabled": true,
+        "server_name": "example.com",
+        "alpn": ["h2", "http/1.1"],
+        "insecure": true
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    }
+  ],
 
   "route": {
     "rules": [
@@ -120,10 +179,12 @@
           "servicewechat.com",
           "weixin.com"
         ],
+        "action": "route",
         "outbound": "direct"
       },
       {
         "rule_set": "geosite-apple-intelligence",
+        "action": "route",
         "outbound": "proxy"
       },
       {
@@ -133,10 +194,12 @@
           "apps.mzstatic.com",
           "cp4.cloudflare.com"
         ],
+        "action": "route",
         "outbound": "proxy"
       },
       {
         "rule_set": "geosite-apple",
+        "action": "route",
         "outbound": "direct"
       },
       {
@@ -157,18 +220,22 @@
           "geosite-bahamut",
           "geosite-spotify"
         ],
+        "action": "route",
         "outbound": "proxy"
       },
       {
         "rule_set": "geosite-bilibili",
+        "action": "route",
         "outbound": "direct"
       },
       {
         "rule_set": "geosite-cn",
+        "action": "route",
         "outbound": "direct"
       },
       {
         "rule_set": "geosite-geolocation-!cn",
+        "action": "route",
         "outbound": "proxy"
       },
       {
@@ -178,10 +245,12 @@
           "geoip-telegram",
           "geoip-twitter"
         ],
+        "action": "route",
         "outbound": "proxy"
       },
       {
         "rule_set": "geoip-cn",
+        "action": "route",
         "outbound": "direct"
       }
     ],
@@ -362,12 +431,16 @@
         "download_detour": "proxy"
       }
     ],
-    "final": "proxy"
+    "final": "proxy",
+    "auto_detect_interface": true
   },
 
   "experimental": {
-    "cache_file": {
-      "enabled": true,
+    "clash_api": {
+      "external_controller": "127.0.0.1:9090",
+      "external_ui": "ui",
+      "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
+      "store_selected": true,
       "store_fakeip": true
     }
   }
