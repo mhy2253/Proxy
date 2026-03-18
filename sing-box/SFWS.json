@@ -20,22 +20,6 @@
         "detour": "direct"
       },
       {
-        "tag": "alidns",
-        "type": "https",
-        "server": "dns.alidns.com",
-        "path": "/dns-query",
-        "domain_resolver": "bootstrap",
-        "detour": "direct"
-      },
-      {
-        "tag": "dnspub",
-        "type": "https",
-        "server": "doh.pub",
-        "path": "/dns-query",
-        "domain_resolver": "bootstrap",
-        "detour": "direct"
-      },
-      {
         "tag": "fake-ip",
         "type": "fakeip",
         "inet4_range": "198.18.0.0/16",
