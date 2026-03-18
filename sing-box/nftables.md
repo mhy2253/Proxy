@@ -62,3 +62,30 @@ table inet sing-box {
 
 ```
 
+## 路由规则（开机自动执行）
+- 保存为 /etc/hotplug.d/iface/99-sing-box：
+```bash
+#!/bin/sh
+[ "$ACTION" = ifup ] || exit 0
+ip rule add fwmark 1 table 100 2>/dev/null
+ip route add local default dev lo table 100 2>/dev/null
+
+```
+
+## systemd 服务（OpenWrt 用 procd）
+- sing-box 的 init 脚本 OpenWrt 包里已自带，直接启用：
+```bash
+service sing-box enable
+service sing-box start
+
+```
+- 配置文件路径默认为 /etc/sing-box/config.json。
+## 应用 nftables 规则
+```bash
+# 重启防火墙使规则生效
+service firewall restart
+
+# 验证规则是否加载
+nft list table inet sing-box
+
+```
