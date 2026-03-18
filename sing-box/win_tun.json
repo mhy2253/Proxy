@@ -7,31 +7,21 @@
   "dns": {
     "servers": [
       {
+        "type": "udp",
         "tag": "bootstrap",
-        "address": "223.5.5.5",
-        "detour": "direct"
+        "server": "223.5.5.5"
       },
       {
+        "type": "tls",
         "tag": "default",
-        "address": "tls://223.5.5.5",
-        "address_resolver": "bootstrap",
-        "detour": "direct"
+        "server": "223.5.5.5",
+        "domain_resolver": "bootstrap"
       },
       {
-        "tag": "alidns",
-        "address": "https://dns.alidns.com/dns-query",
-        "address_resolver": "bootstrap",
-        "detour": "direct"
-      },
-      {
-        "tag": "dnspub",
-        "address": "https://doh.pub/dns-query",
-        "address_resolver": "bootstrap",
-        "detour": "direct"
-      },
-      {
+        "type": "fakeip",
         "tag": "fake-ip",
-        "address": "fakeip"
+        "inet4_range": "198.18.0.0/16",
+        "inet6_range": "fc00::/18"
       }
     ],
     "rules": [
@@ -57,11 +47,6 @@
         "server": "fake-ip"
       }
     ],
-    "fakeip": {
-      "enabled": true,
-      "inet4_range": "198.18.0.0/16",
-      "inet6_range": "fc00::/18"
-    },
     "independent_cache": true,
     "final": "default"
   },
@@ -78,8 +63,7 @@
       "auto_route": true,
       "strict_route": true,
       "stack": "mixed",
-      "sniff": true,
-      "sniff_override_destination": true
+      "sniff": true
     },
     {
       "type": "mixed",
@@ -177,11 +161,15 @@
   "route": {
     "rules": [
       {
+        "action": "sniff"
+      },
+      {
         "protocol": "dns",
         "action": "hijack-dns"
       },
       {
         "ip_is_private": true,
+        "action": "route",
         "outbound": "direct"
       },
       {
@@ -191,10 +179,12 @@
           "servicewechat.com",
           "weixin.com"
         ],
+        "action": "route",
         "outbound": "direct"
       },
       {
         "rule_set": "geosite-apple-intelligence",
+        "action": "route",
         "outbound": "proxy"
       },
       {
@@ -204,10 +194,12 @@
           "apps.mzstatic.com",
           "cp4.cloudflare.com"
         ],
+        "action": "route",
         "outbound": "proxy"
       },
       {
         "rule_set": "geosite-apple",
+        "action": "route",
         "outbound": "direct"
       },
       {
@@ -228,18 +220,22 @@
           "geosite-bahamut",
           "geosite-spotify"
         ],
+        "action": "route",
         "outbound": "proxy"
       },
       {
         "rule_set": "geosite-bilibili",
+        "action": "route",
         "outbound": "direct"
       },
       {
         "rule_set": "geosite-cn",
+        "action": "route",
         "outbound": "direct"
       },
       {
         "rule_set": "geosite-geolocation-!cn",
+        "action": "route",
         "outbound": "proxy"
       },
       {
@@ -249,10 +245,12 @@
           "geoip-telegram",
           "geoip-twitter"
         ],
+        "action": "route",
         "outbound": "proxy"
       },
       {
         "rule_set": "geoip-cn",
+        "action": "route",
         "outbound": "direct"
       }
     ],
