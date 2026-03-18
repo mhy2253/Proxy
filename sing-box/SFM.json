@@ -162,7 +162,7 @@
   "route": {
     "rules": [
       {
-    "action": "sniff"
+        "action": "sniff"
       },
       {
         "protocol": "dns",
