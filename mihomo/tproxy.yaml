@@ -4,11 +4,12 @@ allow-lan: true
 mode: rule
 log-level: info
 ipv6: true
-udp: true
 #external-controller: 127.0.0.1:9090
 #external-ui: ui
 #external-ui-url: "https://123456.929413105.cc/https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
 
+unified-delay: true
+etag-support: true
 geodata-mode: true
 geodata-loader: standard
 geo-auto-update: true
@@ -38,7 +39,6 @@ sniffer:
     QUIC:
       ports: [443, 8443]
   skip-domain:
-    - "Mijia Cloud"
     - "+.push.apple.com"
     - "+.lan"
     - "+.local"
@@ -61,12 +61,14 @@ tun:
   enable: false
 
 dns:
-  prefer-h3: false
-  listen: 0.0.0.0:53
   enable: true
+  listen: 0.0.0.0:53
   ipv6: true
+  prefer-h3: false
+
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
+
   fake-ip-filter:
     # 本地/内网
     - "+.lan"
@@ -104,20 +106,26 @@ dns:
     - "+.logon.battle.net"
 
   default-nameserver:
-    - tls://223.5.5.5
-    - tls://223.6.6.6
+    - 223.5.5.5
+    - 223.6.6.6
+
   nameserver:
-    - tls://223.5.5.5
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
 
+  proxy-server-nameserver:
+    - 223.5.5.5
+    - 223.6.6.6
+
 proxies:
+
   - name: "ss"
     type: ss
     server: server
     port: 443
     cipher: chacha20-ietf-poly1305
     password: "password"
+    udp: true
 
   - name: "trojan"
     type: trojan
@@ -129,29 +137,6 @@ proxies:
     alpn:
       - h2
       - http/1.1
-    skip-cert-verify: true
-
-  - name: "hysteria2"
-    type: hysteria2
-    server: server.com
-    port: 443
-    password: yourpassword
-    sni: server.com
-    skip-cert-verify: false
-    alpn:
-      - h3
-
-  - name: "tuic"
-    type: tuic
-    server: www.example.com
-    port: 10443
-    uuid: 00000000-0000-0000-0000-000000000001
-    password: PASSWORD_1
-    disable-sni: true
-    reduce-rtt: true
-    request-timeout: 8000
-    udp-relay-mode: native
-    fast-open: true
     skip-cert-verify: true
 
   - name: "anytls"
@@ -168,6 +153,7 @@ proxies:
     skip-cert-verify: true
 
 proxy-groups:
+
   - name: "proxy"
     type: url-test
     proxies:
@@ -181,19 +167,24 @@ proxy-groups:
     tolerance: 50
 
 rules:
+
   - GEOIP,lan,DIRECT,no-resolve
+
   # Apple Intelligence
   - GEOSITE,apple-intelligence,proxy
   - DOMAIN-SUFFIX,smoot.apple.com,proxy
   - DOMAIN-SUFFIX,guzzoni.apple.com,proxy
   - DOMAIN-SUFFIX,apps.mzstatic.com,proxy
   - DOMAIN-SUFFIX,cp4.cloudflare.com,proxy
+
   # Apple
   - GEOSITE,apple,DIRECT
+
   # AI 服务
   - GEOSITE,anthropic,proxy
   - GEOSITE,openai,proxy
   - GEOSITE,perplexity,proxy
+
   # 微信
   - DOMAIN-SUFFIX,wechat.com,DIRECT
   - DOMAIN-SUFFIX,weixin.qq.com,DIRECT
@@ -201,6 +192,7 @@ rules:
   - DOMAIN-SUFFIX,weixin.com,DIRECT
   - IP-ASN,45090,DIRECT,no-resolve
   - IP-ASN,132203,DIRECT,no-resolve
+
   # 常用代理
   - GEOSITE,notion,proxy
   - GEOSITE,discord,proxy
@@ -214,14 +206,19 @@ rules:
   - GEOSITE,netflix,proxy
   - GEOSITE,bahamut,proxy
   - GEOSITE,spotify,proxy
+
   # 直连
   - GEOSITE,bilibili,DIRECT
   - GEOSITE,CN,DIRECT
+
+  # 国外域名兜底
   - GEOSITE,geolocation-!cn,proxy
+
   # GEOIP 兜底
   - GEOIP,google,proxy,no-resolve
   - GEOIP,netflix,proxy,no-resolve
   - GEOIP,telegram,proxy,no-resolve
   - GEOIP,twitter,proxy,no-resolve
   - GEOIP,CN,DIRECT,no-resolve
+
   - MATCH,proxy
