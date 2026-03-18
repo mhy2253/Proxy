@@ -18,18 +18,6 @@
         "detour": "direct"
       },
       {
-        "tag": "alidns",
-        "address": "https://dns.alidns.com/dns-query",
-        "address_resolver": "bootstrap",
-        "detour": "direct"
-      },
-      {
-        "tag": "dnspub",
-        "address": "https://doh.pub/dns-query",
-        "address_resolver": "bootstrap",
-        "detour": "direct"
-      },
-      {
         "tag": "fake-ip",
         "address": "fakeip"
       }
@@ -114,11 +102,15 @@
   "route": {
     "rules": [
       {
+        "action": "sniff"
+      },
+      {
         "protocol": "dns",
         "action": "hijack-dns"
       },
       {
         "ip_is_private": true,
+        "action": "route",
         "outbound": "direct"
       },
       {
