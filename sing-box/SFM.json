@@ -7,15 +7,14 @@
   "dns": {
     "servers": [
       {
-        "type": "udp",
-        "tag": "bootstrap",
-        "server": "223.5.5.5"
+        "type": "local",
+        "tag": "dns-local"
       },
       {
         "type": "tls",
-        "tag": "default",
+        "tag": "dns-remote",
         "server": "223.5.5.5",
-        "domain_resolver": "bootstrap"
+        "server_port": 853
       },
       {
         "type": "fakeip",
@@ -28,7 +27,7 @@
       {
         "rule_set": ["geosite-cn"],
         "action": "route",
-        "server": "default"
+        "server": "dns-local"
       },
       {
         "domain_suffix": [
@@ -38,7 +37,17 @@
           "weixin.com"
         ],
         "action": "route",
-        "server": "default"
+        "server": "dns-local"
+      },
+      {
+        "rule_set": ["geosite-apple"],
+        "action": "route",
+        "server": "dns-local"
+      },
+      {
+        "rule_set": ["geosite-bilibili"],
+        "action": "route",
+        "server": "dns-local"
       },
       {
         "query_type": ["HTTPS", "SVCB"],
@@ -51,7 +60,7 @@
       }
     ],
     "independent_cache": true,
-    "final": "default"
+    "final": "dns-remote"
   },
 
   "inbounds": [
@@ -62,16 +71,16 @@
         "172.19.0.1/30",
         "fdfe:dcba:9876::1/126"
       ],
-      "mtu": 9000,
+      "mtu": 1400,
       "auto_route": true,
-      "strict_route": true,
-      "stack": "mixed"
-    },
-    {
-      "type": "mixed",
-      "tag": "mixed-in",
-      "listen": "127.0.0.1",
-      "listen_port": 7890
+      "stack": "mixed",
+      "platform": {
+        "http_proxy": {
+          "enabled": true,
+          "server": "127.0.0.1",
+          "server_port": 7890
+        }
+      }
     }
   ],
 
@@ -79,34 +88,37 @@
     {
       "type": "selector",
       "tag": "proxy",
-      "outbounds": ["auto", "ss", "trojan", "anytls"],
-      "default": "auto"
+      "outbounds": ["auto", "ss", "trojan", "anytls", "direct"],
+      "default": "auto",
+      "interrupt_exist_connections": true
     },
     {
       "type": "urltest",
       "tag": "auto",
       "outbounds": ["ss", "trojan", "anytls"],
-      "url": "https://cp.cloudflare.com/generate_204",
+      "url": "https://www.gstatic.com/generate_204",
       "interval": "5m",
-      "tolerance": 50
+      "tolerance": 50,
+      "idle_timeout": "30m",
+      "interrupt_exist_connections": true
     },
     {
       "type": "shadowsocks",
       "tag": "ss",
-      "server": "103.180.000.000",
-      "server_port": 25691,
+      "server": "ss.example.com",
+      "server_port": 443,
       "method": "chacha20-ietf-poly1305",
-      "password": "2026SyFeNlo@1g@%6gq7H9Y"
+      "password": "password"
     },
     {
       "type": "trojan",
       "tag": "trojan",
-      "server": "71.13105.cc",
+      "server": "trojan.example.com",
       "server_port": 443,
-      "password": "xHvse7n9wLy#aBB$",
+      "password": "yourpsk",
       "tls": {
         "enabled": true,
-        "server_name": "71.13105.cc",
+        "server_name": "example.com",
         "alpn": ["h2", "http/1.1"],
         "insecure": true
       }
@@ -114,12 +126,15 @@
     {
       "type": "anytls",
       "tag": "anytls",
-      "server": "71.13105.cc",
-      "server_port": 8443,
-      "password": "xHvse7n9wLy#aBB$",
+      "server": "1.2.3.4",
+      "server_port": 443,
+      "password": "your-password",
+      "idle_session_check_interval": "30s",
+      "idle_session_timeout": "30s",
+      "min_idle_session": 0,
       "tls": {
         "enabled": true,
-        "server_name": "71.13105.cc",
+        "server_name": "example.com",
         "alpn": ["h2", "http/1.1"],
         "insecure": true
       }
@@ -131,6 +146,8 @@
   ],
 
   "route": {
+    "auto_detect_interface": true,
+    "default_domain_resolver": "dns-remote",
     "rules": [
       {
         "action": "sniff"
@@ -403,9 +420,7 @@
         "download_detour": "proxy"
       }
     ],
-    "final": "proxy",
-    "auto_detect_interface": true,
-    "default_domain_resolver": "bootstrap"
+    "final": "proxy"
   },
 
   "experimental": {
