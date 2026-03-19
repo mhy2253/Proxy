@@ -3,32 +3,26 @@
     "level": "info",
     "timestamp": true
   },
-
   "dns": {
     "servers": [
       {
-        "tag": "bootstrap",
-        "type": "udp",
-        "server": "223.5.5.5"
+        "tag": "local",
+        "type": "local"
       },
       {
         "tag": "default",
         "type": "tls",
         "server": "223.5.5.5",
-        "domain_resolver": "bootstrap"
-      },
-      {
-        "tag": "fake-ip",
-        "type": "fakeip",
-        "inet4_range": "198.18.0.0/16",
-        "inet6_range": "fc00::/18"
+        "server_port": 853
       }
     ],
     "rules": [
       {
-        "rule_set": ["geosite-cn"],
+        "rule_set": [
+          "geosite-cn"
+        ],
         "action": "route",
-        "server": "default"
+        "server": "local"
       },
       {
         "domain_suffix": [
@@ -38,42 +32,55 @@
           "weixin.com"
         ],
         "action": "route",
-        "server": "default"
+        "server": "local"
       },
       {
-        "query_type": ["HTTPS", "SVCB"],
-        "action": "reject"
-      },
-      {
-        "rule_set": ["geosite-geolocation-!cn"],
+        "rule_set": [
+          "geosite-bilibili"
+        ],
         "action": "route",
-        "server": "fake-ip"
+        "server": "local"
+      },
+      {
+        "rule_set": [
+          "geosite-geolocation-!cn"
+        ],
+        "action": "route",
+        "server": "default"
       }
     ],
     "independent_cache": true,
     "final": "default"
   },
-
   "inbounds": [
     {
       "type": "mixed",
       "tag": "mixed-in",
       "listen": "127.0.0.1",
-      "listen_port": 7890
+      "listen_port": 7890,
+      "set_system_proxy": true
     }
   ],
-
   "outbounds": [
     {
       "type": "selector",
       "tag": "proxy",
-      "outbounds": ["auto", "trojan", "anytls", "ss"],
+      "outbounds": [
+        "auto",
+        "trojan",
+        "anytls",
+        "ss"
+      ],
       "default": "auto"
     },
     {
       "type": "urltest",
       "tag": "auto",
-      "outbounds": ["trojan", "anytls", "ss"],
+      "outbounds": [
+        "trojan",
+        "anytls",
+        "ss"
+      ],
       "url": "https://cp.cloudflare.com/generate_204",
       "interval": "5m",
       "tolerance": 50
@@ -81,51 +88,52 @@
     {
       "type": "trojan",
       "tag": "trojan",
-      "server": "server",
+      "server": "71.929413105.cc",
       "server_port": 443,
-      "password": "yourpsk",
+      "password": "xHvse7n9wLy#aBB$",
       "tls": {
         "enabled": true,
-        "server_name": "example.com",
-        "alpn": ["h2", "http/1.1"],
+        "server_name": "71.929413105.cc",
+        "alpn": [
+          "h2",
+          "http/1.1"
+        ],
         "insecure": true
       }
     },
     {
       "type": "anytls",
       "tag": "anytls",
-      "server": "1.2.3.4",
-      "server_port": 443,
-      "password": "your_password",
+      "server": "71.929413105.cc",
+      "server_port": 8443,
+      "password": "xHvse7n9wLy#aBB$",
       "tls": {
         "enabled": true,
-        "server_name": "example.com",
-        "alpn": ["h2", "http/1.1"],
+        "server_name": "71.929413105.cc",
+        "alpn": [
+          "h2",
+          "http/1.1"
+        ],
         "insecure": true
       }
     },
     {
       "type": "shadowsocks",
       "tag": "ss",
-      "server": "server",
-      "server_port": 443,
+      "server": "64.929413105.cc",
+      "server_port": 12345,
       "method": "chacha20-ietf-poly1305",
-      "password": "password"
+      "password": "2026SyFeNlo@1g@%6gq7H9Y"
     },
     {
       "type": "direct",
       "tag": "direct"
     }
   ],
-
   "route": {
     "rules": [
       {
         "action": "sniff"
-      },
-      {
-        "protocol": "dns",
-        "action": "hijack-dns"
       },
       {
         "ip_is_private": true,
@@ -200,167 +208,165 @@
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/anthropic.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-openai",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/openai.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-perplexity",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/perplexity.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-notion",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/notion.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-discord",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/discord.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-github",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/github.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-twitter",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/twitter.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-tiktok",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/tiktok.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-dropbox",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/dropbox.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-youtube",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/youtube.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-google",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/google.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-telegram",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/telegram.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-netflix",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/netflix.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-bahamut",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/bahamut.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-spotify",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/spotify.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-bilibili",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/bilibili.srs",
-        "download_detour": "direct"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-cn",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/cn.srs",
-        "download_detour": "direct"
+        "download_detour": "trojan"
       },
       {
         "tag": "geosite-geolocation-!cn",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/geolocation-!cn.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geoip-cn",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cn.srs",
-        "download_detour": "direct"
+        "download_detour": "trojan"
       },
       {
         "tag": "geoip-google",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/google.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geoip-netflix",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/netflix.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geoip-telegram",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/telegram.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       },
       {
         "tag": "geoip-twitter",
         "type": "remote",
         "format": "binary",
         "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/twitter.srs",
-        "download_detour": "proxy"
+        "download_detour": "trojan"
       }
     ],
-    "final": "proxy",
-    "default_domain_resolver": "bootstrap"
+    "final": "proxy"
   },
-
   "experimental": {
     "clash_api": {
       "external_controller": "127.0.0.1:9090",
@@ -368,8 +374,7 @@
       "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
     },
     "cache_file": {
-      "enabled": true,
-      "store_fakeip": true
+      "enabled": true
     }
   }
 }
