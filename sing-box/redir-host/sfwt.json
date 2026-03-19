@@ -14,8 +14,7 @@
         "tag": "default",
         "type": "tls",
         "server": "223.5.5.5",
-        "server_port": 853,
-        "detour": "direct"
+        "server_port": 853
       }
     ],
     "rules": [
