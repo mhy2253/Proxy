@@ -16,16 +16,12 @@ tcp-concurrent: true
 find-process-mode: strict 
 global-client-fingerprint: chrome
 
-geodata-mode: true
 geox-url:
   geoip: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
   geosite: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
   mmdb: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
   asn: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
 
-profile:
-  store-selected: true
-  store-fake-ip: true
 profile:
   store-selected: true
   store-fake-ip: true
