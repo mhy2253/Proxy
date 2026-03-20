@@ -1,9 +1,8 @@
 mixed-port: 7890
-allow-lan: true
+allow-lan: false
 mode: rule
 log-level: info
-ipv6: true
-udp: true
+ipv6: false
 
 external-controller: 127.0.0.1:9090
 external-ui: ui
@@ -17,7 +16,6 @@ geo-update-interval: 24
 tcp-concurrent: true
 unified-delay: true
 find-process-mode: off
-global-client-fingerprint: chrome
 
 geox-url:
   geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
@@ -27,7 +25,6 @@ geox-url:
 
 profile:
   store-selected: true
-  store-fake-ip: true
 
 sniffer:
   enable: false
@@ -37,28 +34,30 @@ tun:
 
 dns:
   enable: true
-  ipv6: true
+  ipv6: false
   prefer-h3: false
-  listen: 0.0.0.0:53
-  enhanced-mode: fake-ip
-  fake-ip-range: 198.18.0.1/16
-  fake-ip-filter:
-    - "+.lan"
-    - "+.local"
-    - "localhost"
-    - "+.msftconnecttest.com"
-    - "dns.msftncsi.com"
+  listen: 127.0.0.1:1053
+  enhanced-mode: redir-host
+
   default-nameserver:
     - tls://223.5.5.5
     - tls://223.6.6.6
+
   nameserver:
-    - tls://223.5.5.5
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
+
+  fallback:
+    - https://dns.google/dns-query#proxy
+    - https://cloudflare-dns.com/dns-query#proxy
+
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+
   proxy-server-nameserver:
     - tls://223.5.5.5
-    - https://doh.pub/dns-query
-    - https://dns.alidns.com/dns-query
+    - tls://223.6.6.6
 
 proxies:
   - name: "ss"
@@ -66,14 +65,16 @@ proxies:
     server: 13105.cc
     port: 12345
     cipher: chacha20-ietf-poly1305
-    password: "2026SyFeNlo@1g@%6gq7H9Y"
+    password: "请替换成新密码"
+    udp: true
 
   - name: "trojan"
     type: trojan
     server: 13105.cc
     port: 443
-    password: "xHvse7n9wLy#aBB$"
+    password: "请替换成新密码"
     udp: true
+    client-fingerprint: chrome
     sni: 13105.cc
     alpn:
       - h2
@@ -82,9 +83,9 @@ proxies:
 
   - name: "anytls"
     type: anytls
-    server: 413105.cc
+    server: 13105.cc
     port: 8443
-    password: "xHvse7n9wLy#aBB$"
+    password: "请替换成新密码"
     client-fingerprint: chrome
     udp: true
     sni: "13105.cc"
