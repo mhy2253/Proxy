@@ -1,65 +1,74 @@
-# Apple ruleset - merged, deduplicated and optimized
-
-# DOMAIN-SUFFIX
+# Apple Direct
+# ===== DOMAIN-SUFFIX =====
 DOMAIN-SUFFIX,aaplimg.com
 DOMAIN-SUFFIX,akadns.net
+DOMAIN-SUFFIX,akamaized.net
 DOMAIN-SUFFIX,apple
 DOMAIN-SUFFIX,apple-cloudkit.com
 DOMAIN-SUFFIX,apple-dns.net
-DOMAIN-SUFFIX,apple-finance.com
 DOMAIN-SUFFIX,apple-livephotoskit.com
 DOMAIN-SUFFIX,apple-mapkit.com
-DOMAIN-SUFFIX,apple-support.akadns.net
 DOMAIN-SUFFIX,apple.cn
 DOMAIN-SUFFIX,apple.co
 DOMAIN-SUFFIX,apple.com
-DOMAIN-SUFFIX,apple.com.cdn20.com
 DOMAIN-SUFFIX,apple.com.cn
-DOMAIN-SUFFIX,apple.com.edgekey.net
-DOMAIN-SUFFIX,apple.com.edgekey.net.globalredir.akadns.net
-DOMAIN-SUFFIX,apple.com.mwcloudcdn.com
-DOMAIN-SUFFIX,apple.com.mwcname.com
 DOMAIN-SUFFIX,applemusic.com
-DOMAIN-SUFFIX,applepaydemos.com
+DOMAIN-SUFFIX,apple-pay.com
 DOMAIN-SUFFIX,appsto.re
 DOMAIN-SUFFIX,appstore.com
-DOMAIN-SUFFIX,apzones.com
 DOMAIN-SUFFIX,cdn-apple.com
+DOMAIN-SUFFIX,edgekey.net
+DOMAIN-SUFFIX,edgesuite.net
+DOMAIN-SUFFIX,foundationdb.org
 DOMAIN-SUFFIX,icloud-content.com
+DOMAIN-SUFFIX,icloud-content.com.cn
 DOMAIN-SUFFIX,icloud.com
 DOMAIN-SUFFIX,icloud.com.cn
+DOMAIN-SUFFIX,itun.es
 DOMAIN-SUFFIX,itunes.com
-DOMAIN-SUFFIX,itunes.com.edgekey.net
 DOMAIN-SUFFIX,me.com
+DOMAIN-SUFFIX,musickit.net
 DOMAIN-SUFFIX,mzstatic.com
+DOMAIN-SUFFIX,servicetalk.io
+DOMAIN-SUFFIX,swift.org
+DOMAIN-SUFFIX,webkit.org
+DOMAIN-SUFFIX,webkitgtk.org
+DOMAIN-SUFFIX,wpewebkit.org
+DOMAIN-SUFFIX,appletv.com
+DOMAIN-SUFFIX,shazam.com
+DOMAIN-SUFFIX,texture.com
 
-# DOMAIN
+# ===== DOMAIN =====
 DOMAIN,apple.comscoreresearch.com
+DOMAIN,apple-events.akamaized.net
 DOMAIN,appleid.cdn-apple.com
+DOMAIN,appletvapp.apple
 DOMAIN,bag.itunes.apple.com
 DOMAIN,certificatechain.apple.com
 DOMAIN,certs.apple.com
+DOMAIN,edge.apple
+DOMAIN,lookup-api.apple.com.edgekey.net
+DOMAIN,ls.apple.com.edgesuite.net
 DOMAIN,ocsp.apple.com
+DOMAIN,p-events-delivery.akamaized.net
 DOMAIN,ppq.apple.com
+DOMAIN,safebrowsing.apple
+DOMAIN,store.apple.com.edgekey.net
+DOMAIN,www.apple.com.edgekey.net
 
-# DOMAIN-KEYWORD
-DOMAIN-KEYWORD,apple-support.akadns.net
-DOMAIN-KEYWORD,apple.com.akadns.net
-DOMAIN-KEYWORD,apple.com.edgekey.net
-DOMAIN-KEYWORD,icloud
-DOMAIN-KEYWORD,icloud.com.akadns.net
+# ===== DOMAIN-KEYWORD =====
 DOMAIN-KEYWORD,testflight
 
-# IP-CIDR
+# ===== IP-CIDR =====
 IP-CIDR,17.0.0.0/8,no-resolve
+IP-CIDR,57.178.0.0/15,no-resolve
 IP-CIDR,144.178.0.0/18,no-resolve
 IP-CIDR,192.35.50.0/24,no-resolve
 IP-CIDR,198.183.16.0/23,no-resolve
 IP-CIDR,204.179.120.0/24,no-resolve
 IP-CIDR,205.180.175.0/24,no-resolve
-IP-CIDR,57.178.0.0/15,no-resolve
 
-# IP-CIDR6
+# ===== IP-CIDR6 =====
 IP-CIDR6,2403:300::/32,no-resolve
 IP-CIDR6,2620:149::/32,no-resolve
 IP-CIDR6,2a01:b740::/32,no-resolve
