@@ -109,7 +109,7 @@ dns:
 proxies:
   - name: "sanjose"
     type: ss
-    server: 64.929413105.cc
+    server: 12345.xyz
     port: 12345
     cipher: chacha20-ietf-poly1305
     password: "2026SyFeNlo@1g@%6gq7H9Y"
