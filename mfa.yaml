@@ -1,0 +1,172 @@
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: info
+ipv6: true
+
+unified-delay: true
+tcp-concurrent: true
+find-process-mode: strict
+geodata-mode: true
+geodata-loader: memconservative
+geo-auto-update: true
+geo-update-interval: 24
+etag-support: true
+
+geox-url:
+  geoip: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
+  geosite: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
+  asn: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+sniffer:
+  enable: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  skip-domain:
+    - "+.push.apple.com"
+
+tun:
+  enable: true
+  stack: mixed
+  dns-hijack:
+    - "any:53"
+    - "tcp://any:53"
+  auto-route: true
+  auto-detect-interface: true
+  strict-route: true
+  exclude-cidr:
+    - 10.0.0.0/8
+    - 172.16.0.0/12
+    - 192.168.0.0/16
+    - 127.0.0.0/8
+  exclude-package:
+    - com.android.captiveportallogin
+
+dns:
+  enable: true
+  listen: 0.0.0.0:53
+  ipv6: true
+  prefer-h3: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - "+.lan"
+    - "+.local"
+    - "localhost"
+    - "+.pool.ntp.org"
+    - "time.*.com"
+    - "time.*.gov"
+    - "time.*.edu.cn"
+    - "ntp.*.com"
+    - "ntp1.*.com"
+    - "+.msftconnecttest.com"
+    - "dns.msftncsi.com"
+    - "+.msftncsi.com"
+    - "+.push.apple.com"
+    - "+.apple.com.cn"
+    - "localhost.ptlogin2.qq.com"
+    - "localhost.sec.qq.com"
+    - "+.market.xiaomi.com"
+    - "ping.mi.com"
+    - "+.stun.*.*"
+    - "+.stun.*.*.*"
+    - "stun.l.google.com"
+    - "+.srv.nintendo.net"
+    - "+.stun.playstation.net"
+    - "xbox.*.microsoft.com"
+    - "+.xboxlive.com"
+    - "+.logon.battlenet.com.cn"
+    - "+.logon.battle.net"
+
+  default-nameserver:
+    - 223.5.5.5
+    - 223.6.6.6
+
+  nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+
+  proxy-server-nameserver:
+    - 223.5.5.5
+    - 223.6.6.6
+
+  nameserver-policy:
+    "geosite:cn,private":
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+
+proxies:
+  - name: "sanjose"
+    type: ss
+    server: 64.929413105.cc
+    port: 12345
+    cipher: chacha20-ietf-poly1305
+    password: "2026SyFeNlo@1g@%6gq7H9Y"
+    udp: true
+
+proxy-groups:
+  - name: proxy
+    type: url-test
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    tolerance: 50
+    proxies:
+      - sanjose
+
+rules:
+  - GEOIP,lan,DIRECT,no-resolve
+
+  - DOMAIN-SUFFIX,wechat.com,DIRECT
+  - DOMAIN-SUFFIX,weixin.qq.com,DIRECT
+  - DOMAIN-SUFFIX,servicewechat.com,DIRECT
+  - DOMAIN-SUFFIX,weixin.com,DIRECT
+  - IP-ASN,45090,DIRECT,no-resolve
+  - IP-ASN,132203,DIRECT,no-resolve
+
+  - GEOSITE,apple-intelligence,proxy
+  - DOMAIN-SUFFIX,smoot.apple.com,proxy
+  - DOMAIN-SUFFIX,guzzoni.apple.com,proxy
+  - DOMAIN-SUFFIX,apps.mzstatic.com,proxy
+  - DOMAIN-SUFFIX,cp4.cloudflare.com,proxy
+
+  - GEOSITE,apple,DIRECT
+
+  - GEOSITE,anthropic,proxy
+  - GEOSITE,openai,proxy
+  - GEOSITE,perplexity,proxy
+
+  - GEOSITE,notion,proxy
+  - GEOSITE,discord,proxy
+  - GEOSITE,github,proxy
+  - GEOSITE,twitter,proxy
+  - GEOSITE,tiktok,proxy
+  - GEOSITE,dropbox,proxy
+  - GEOSITE,youtube,proxy
+  - GEOSITE,google,proxy
+  - GEOSITE,telegram,proxy
+  - GEOSITE,netflix,proxy
+  - GEOSITE,bahamut,proxy
+  - GEOSITE,spotify,proxy
+
+  - GEOSITE,bilibili,DIRECT
+  - GEOSITE,CN,DIRECT
+  - GEOSITE,geolocation-!cn,proxy
+
+  - GEOIP,google,proxy,no-resolve
+  - GEOIP,netflix,proxy,no-resolve
+  - GEOIP,telegram,proxy,no-resolve
+  - GEOIP,twitter,proxy,no-resolve
+  - GEOIP,CN,DIRECT,no-resolve
+
+  - MATCH,proxy
