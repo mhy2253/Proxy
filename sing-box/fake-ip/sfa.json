@@ -88,20 +88,20 @@
     {
       "type": "shadowsocks",
       "tag": "ss",
-      "server": "ss.example.com",
-      "server_port": 443,
+      "server": "64.929413105.cc",
+      "server_port": 12345,
       "method": "chacha20-ietf-poly1305",
-      "password": "password"
+      "password": "2026SyFeNlo@1g@%6gq7H9Y"
     },
     {
       "type": "anytls",
       "tag": "anytls",
-      "server": "1.2.3.4",
-      "server_port": 443,
-      "password": "your-password",
+      "server": "71.929413105.cc",
+      "server_port": 8443,
+      "password": "xHvse7n9wLy#aBB$",
       "tls": {
         "enabled": true,
-        "server_name": "example.com",
+        "server_name": "71.929413105.cc",
         "alpn": ["h2", "http/1.1"],
         "insecure": true
       }
