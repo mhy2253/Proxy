@@ -7,21 +7,23 @@ udp: true
 
 external-controller: 127.0.0.1:9090
 external-ui: ui
-external-ui-url: "https://123456.929413105.cc/https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
+external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
 
 geodata-mode: true
 geodata-loader: standard
 geo-auto-update: true
 geo-update-interval: 24
+
 tcp-concurrent: true
-find-process-mode: strict
+unified-delay: true
+find-process-mode: off
 global-client-fingerprint: chrome
 
 geox-url:
-  geoip: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
-  geosite: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
-  mmdb: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
-  asn: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
+  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
+  asn: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
 
 profile:
   store-selected: true
@@ -36,63 +38,74 @@ tun:
 dns:
   enable: true
   ipv6: true
+  prefer-h3: false
   listen: 0.0.0.0:53
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-
+  fake-ip-filter:
+    - "+.lan"
+    - "+.local"
+    - "localhost"
+    - "+.msftconnecttest.com"
+    - "dns.msftncsi.com"
   default-nameserver:
     - tls://223.5.5.5
     - tls://223.6.6.6
-
   nameserver:
     - tls://223.5.5.5
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
-
+  proxy-server-nameserver:
+    - tls://223.5.5.5
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
 
 proxies:
-
-  - name: ss
+  - name: "ss"
     type: ss
     server: 13105.cc
     port: 12345
     cipher: chacha20-ietf-poly1305
     password: "2026SyFeNlo@1g@%6gq7H9Y"
 
-  - name: trojan
+  - name: "trojan"
     type: trojan
-    server: 3105.cc
+    server: 13105.cc
     port: 443
-    password: xHvse7n9wLy#aBB$
+    password: "xHvse7n9wLy#aBB$"
     udp: true
-    sni: 71.929413105.cc
+    sni: 13105.cc
+    alpn:
+      - h2
+      - http/1.1
     skip-cert-verify: true
 
-  - name: anytls
+  - name: "anytls"
     type: anytls
-    server: 13105.cc
+    server: 413105.cc
     port: 8443
     password: "xHvse7n9wLy#aBB$"
     client-fingerprint: chrome
     udp: true
     sni: "13105.cc"
+    alpn:
+      - h2
+      - http/1.1
     skip-cert-verify: true
 
-
 proxy-groups:
-
-  - name: proxy
+  - name: "proxy"
     type: url-test
     proxies:
       - ss
       - trojan
       - anytls
-    url: https://cp.cloudflare.com/generate_204
+    url: "https://cp.cloudflare.com/generate_204"
     interval: 300
-
+    tolerance: 50
+    lazy: true
 
 rules:
-
   - GEOIP,lan,DIRECT,no-resolve
   - GEOSITE,openai,proxy
   - GEOSITE,anthropic,proxy
