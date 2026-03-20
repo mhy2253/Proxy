@@ -1,14 +1,19 @@
-# AppleIntelligence分流
-# Update 20251121
+# Siri / Apple Intelligence / Private Relay / PCC / Apple Relay
+DOMAIN,guzzoni.apple.com
+DOMAIN-SUFFIX,smoot.apple.com
+DOMAIN,gspe1-ssl.ls.apple.com
+DOMAIN,siri.com
 
+DOMAIN,gateway.icloud.com
+DOMAIN,mask-api.icloud.com
+DOMAIN,mask-h2.icloud.com
+DOMAIN,probe.icloud.com
+DOMAIN,pong.icloud.com
+DOMAIN,metrics.icloud.com
 
-DOMAIN-SUFFIX, gateway.icloud.com
-DOMAIN-SUFFIX, apple-relay.apple.com
-DOMAIN-SUFFIX, apple-relay.fastly-edge.com
-DOMAIN-SUFFIX, apple-relay.cloudflare.com
-DOMAIN-SUFFIX, guzzoni.apple.com
-DOMAIN-SUFFIX, cp4.cloudflare.com
-DOMAIN-SUFFIX, gspe1-ssl.ls.apple.com
-DOMAIN-SUFFIX, smoot.apple.com
-DOMAIN-SUFFIX, apple-relay.akamaized.net
-DOMAIN-SUFFIX, apple-relay.mask.apple-dns.net
+DOMAIN,apple-relay.apple.com
+DOMAIN,apple-relay.akamaized.net
+DOMAIN,apple-relay.mask.apple-dns.net
+DOMAIN,apple-relay.cloudflare.com
+DOMAIN,apple-relay.fastly-edge.com
+DOMAIN,cp4.cloudflare.com
