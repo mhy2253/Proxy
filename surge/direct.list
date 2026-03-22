@@ -294,8 +294,10 @@ IP-CIDR6,240e:ff:f100::/44,no-resolve
 
 
 # =========================
-# Oracle Official
+# Other
 # =========================
 
 DOMAIN-SUFFIX,oracle.com
 DOMAIN-SUFFIX,oraclecloud.com
+DOMAIN-KEYWORD,syfhy
+DOMAIN-KEYWORD,929413105
