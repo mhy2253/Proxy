@@ -10,5 +10,11 @@ bash <(wget -qO- https://raw.githubusercontent.com/mhy2253/Proxy/main/Setup_and_
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/mhy2253/Proxy/main/Setup_and_Deployment/install_shadowsocks_rust.sh | bash
+
 ```
 
+## sing-box 一键部署
+
+```bash
+curl -fsSL https://sing-box.app/install.sh | sh
+```
