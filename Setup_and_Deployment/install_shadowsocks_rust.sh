@@ -1,4 +1,3 @@
-```bash
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -56,17 +55,17 @@ case "${ARCH}" in
     ;;
 esac
 
-echo "==> Fetching latest release version"
+echo "==> Fetching latest release version from GitHub API"
+API_URL="https://api.github.com/repos/${REPO}/releases/latest"
+
 if [[ "${DOWNLOADER}" == "curl" ]]; then
-  LATEST_URL="$(curl -fsSLI -o /dev/null -w '%{url_effective}' "https://github.com/${REPO}/releases/latest")"
+  VERSION="$(curl -fsSL "${API_URL}" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')"
 else
-  LATEST_URL="$(wget -S --max-redirect=20 -O /dev/null "https://github.com/${REPO}/releases/latest" 2>&1 | awk '/^  Location: /{print $2}' | tail -n1 | tr -d '\r')"
+  VERSION="$(wget -qO- "${API_URL}" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')"
 fi
 
-VERSION="${LATEST_URL##*/}"
-
-if [[ -z "${VERSION}" || "${VERSION}" == "latest" ]]; then
-  echo "Error: Failed to determine latest version."
+if [[ -z "${VERSION}" ]]; then
+  echo "Error: Failed to determine latest version from GitHub API."
   exit 1
 fi
 
@@ -127,6 +126,8 @@ sudo tee "${CONFIG_FILE}" > /dev/null <<EOF
 }
 EOF
 
+sudo chmod 600 "${CONFIG_FILE}"
+
 echo "==> Writing systemd service"
 sudo tee "${SERVICE_FILE}" > /dev/null <<'EOF'
 [Unit]
@@ -165,4 +166,3 @@ echo "Generated password: ${PASSWORD}"
 echo
 echo "Service status:"
 systemctl status ssserver --no-pager
-```
