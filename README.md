@@ -78,23 +78,3 @@ sudo systemctl stop ssserver
 ```bash
 sudo systemctl enable ssserver
 ```
-
-## 客户端连接参数
-
-客户端需要填写以下内容：
-
-- 服务器地址：你的服务器公网 IP 或域名
-- 端口：`8388`
-- 密码：脚本执行完成后输出的密码
-- 加密方式：`chacha20-ietf-poly1305`
-
-## 注意事项
-
-- 本脚本适用于 **Ubuntu ARM64 / aarch64**
-- 脚本需要在具有 `sudo` 权限的用户下执行
-- 如果服务器启用了云安全组或其他防火墙，请自行放行对应端口
-- 建议执行完成后立即保存生成的密码
-
-## 文件说明
-
-- `install_shadowsocks_rust.sh`：一键部署脚本
