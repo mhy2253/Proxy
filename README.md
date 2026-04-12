@@ -1,7 +1,5 @@
 ## shadowsocks-rust 一键部署
 
-## 使用方法
-
 直接执行下面这条命令：
 
 ```bash
