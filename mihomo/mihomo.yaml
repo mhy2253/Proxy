@@ -1,5 +1,3 @@
-mixed-port: 7890
-allow-lan: false
 mode: rule
 log-level: info
 ipv6: true
@@ -7,17 +5,6 @@ ipv6: true
 unified-delay: true
 tcp-concurrent: true
 find-process-mode: strict
-geodata-mode: true
-geodata-loader: memconservative
-geo-auto-update: true
-geo-update-interval: 24
-etag-support: true
-
-geox-url:
-  geoip: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
-  geosite: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
-  mmdb: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
-  asn: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
 
 profile:
   store-selected: true
@@ -57,7 +44,6 @@ dns:
   enable: true
   listen: 127.0.0.1:53
   ipv6: true
-  prefer-h3: false
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   fake-ip-filter:
@@ -101,11 +87,6 @@ dns:
     - tls://223.5.5.5
     - tls://223.6.6.6
 
-  nameserver-policy:
-    "geosite:cn,private":
-      - https://doh.pub/dns-query
-      - https://dns.alidns.com/dns-query
-
 proxies:
   - name: "sanjose"
     type: ss
@@ -124,49 +105,70 @@ proxy-groups:
     proxies:
       - sanjose
 
+rule-anchor:
+  ip: &ip
+    type: http
+    interval: 86400
+    behavior: ipcidr
+    format: mrs
+    proxy: DIRECT
+  domain: &domain
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    proxy: DIRECT
+
+rule-providers:
+  apple_intelligence:
+    <<: *domain
+    path: ./apple-intelligence.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-intelligence.mrs"
+  anthropic:
+    <<: *domain
+    path: ./anthropic.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/anthropic.mrs"
+  openai:
+    <<: *domain
+    path: ./openai.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/openai.mrs"
+  perplexity:
+    <<: *domain
+    path: ./perplexity.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/perplexity.mrs"
+  geolocation_not_cn:
+    <<: *domain
+    path: ./geolocation-not-cn.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
+  google_ip:
+    <<: *ip
+    path: ./google_ip.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"
+  netflix_ip:
+    <<: *ip
+    path: ./netflix_ip.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"
+  telegram_ip:
+    <<: *ip
+    path: ./telegram_ip.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
+  twitter_ip:
+    <<: *ip
+    path: ./twitter_ip.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/twitter.mrs"
+
 rules:
-  - GEOIP,lan,DIRECT,no-resolve
+  - RULE-SET,apple_intelligence,proxy
 
-  - DOMAIN-SUFFIX,wechat.com,DIRECT
-  - DOMAIN-SUFFIX,weixin.qq.com,DIRECT
-  - DOMAIN-SUFFIX,servicewechat.com,DIRECT
-  - DOMAIN-SUFFIX,weixin.com,DIRECT
-  - IP-ASN,45090,DIRECT,no-resolve
-  - IP-ASN,132203,DIRECT,no-resolve
+  - RULE-SET,anthropic,proxy
+  - RULE-SET,openai,proxy
+  - RULE-SET,perplexity,proxy
 
-  - GEOSITE,apple-intelligence,proxy
-  - DOMAIN-SUFFIX,smoot.apple.com,proxy
-  - DOMAIN-SUFFIX,guzzoni.apple.com,proxy
-  - DOMAIN-SUFFIX,apps.mzstatic.com,proxy
-  - DOMAIN-SUFFIX,cp4.cloudflare.com,proxy
+  - RULE-SET,geolocation_not_cn,proxy
 
-  - GEOSITE,apple,DIRECT
+  - RULE-SET,google_ip,proxy,no-resolve
+  - RULE-SET,netflix_ip,proxy,no-resolve
+  - RULE-SET,telegram_ip,proxy,no-resolve
+  - RULE-SET,twitter_ip,proxy,no-resolve
 
-  - GEOSITE,anthropic,proxy
-  - GEOSITE,openai,proxy
-  - GEOSITE,perplexity,proxy
-
-  - GEOSITE,notion,proxy
-  - GEOSITE,discord,proxy
-  - GEOSITE,github,proxy
-  - GEOSITE,twitter,proxy
-  - GEOSITE,tiktok,proxy
-  - GEOSITE,dropbox,proxy
-  - GEOSITE,youtube,proxy
-  - GEOSITE,google,proxy
-  - GEOSITE,telegram,proxy
-  - GEOSITE,netflix,proxy
-  - GEOSITE,bahamut,proxy
-  - GEOSITE,spotify,proxy
-
-  - GEOSITE,bilibili,DIRECT
-  - GEOSITE,CN,DIRECT
-  - GEOSITE,geolocation-!cn,proxy
-
-  - GEOIP,google,proxy,no-resolve
-  - GEOIP,netflix,proxy,no-resolve
-  - GEOIP,telegram,proxy,no-resolve
-  - GEOIP,twitter,proxy,no-resolve
-  - GEOIP,CN,DIRECT,no-resolve
-
-  - MATCH,proxy
+  - MATCH,DIRECT
