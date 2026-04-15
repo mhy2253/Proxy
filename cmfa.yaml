@@ -1,4 +1,3 @@
-mixed-port: 7890
 allow-lan: false
 mode: rule
 log-level: info
@@ -6,18 +5,7 @@ ipv6: true
 
 unified-delay: true
 tcp-concurrent: true
-find-process-mode: strict
-geodata-mode: true
-geodata-loader: memconservative
-geo-auto-update: true
-geo-update-interval: 24
 etag-support: true
-
-geox-url:
-  geoip: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
-  geosite: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
-  mmdb: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
-  asn: "https://123456.929413105.cc/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
 
 profile:
   store-selected: true
@@ -49,13 +37,15 @@ tun:
     - 10.0.0.0/8
     - 172.16.0.0/12
     - 192.168.0.0/16
+    - 100.64.0.0/10
+    - 169.254.0.0/16
     - 127.0.0.0/8
   exclude-package:
     - com.android.captiveportallogin
 
 dns:
   enable: true
-  listen: 0.0.0.0:53
+  listen: 127.0.0.1:53
   ipv6: true
   prefer-h3: false
   enhanced-mode: fake-ip
@@ -101,11 +91,6 @@ dns:
     - 223.5.5.5
     - 223.6.6.6
 
-  nameserver-policy:
-    "geosite:cn,private":
-      - https://doh.pub/dns-query
-      - https://dns.alidns.com/dns-query
-
 proxies:
   - name: "sanjose"
     type: ss
@@ -117,56 +102,209 @@ proxies:
 
 proxy-groups:
   - name: proxy
-    type: url-test
-    url: https://cp.cloudflare.com/generate_204
-    interval: 300
-    tolerance: 50
+    type: select
     proxies:
       - sanjose
 
+rule-providers:
+  private-ip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    path: ./ruleset/private-ip.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs"
+    interval: 259200
+
+  anthropic:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/anthropic.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/anthropic.mrs"
+    interval: 259200
+
+  openai:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/openai.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/openai.mrs"
+    interval: 259200
+
+  perplexity:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/perplexity.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/perplexity.mrs"
+    interval: 259200
+
+  notion:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/notion.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/notion.mrs"
+    interval: 259200
+
+  discord:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/discord.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/discord.mrs"
+    interval: 259200
+
+  github:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/github.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"
+    interval: 259200
+
+  twitter:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/twitter.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.mrs"
+    interval: 259200
+
+  tiktok:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/tiktok.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"
+    interval: 259200
+
+  dropbox:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/dropbox.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/dropbox.mrs"
+    interval: 259200
+
+  youtube:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/youtube.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"
+    interval: 259200
+
+  google:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/google.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"
+    interval: 259200
+
+  telegram:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/telegram.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"
+    interval: 259200
+
+  netflix:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/netflix.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"
+    interval: 259200
+
+  bahamut:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/bahamut.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bahamut.mrs"
+    interval: 259200
+
+  spotify:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/spotify.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"
+    interval: 259200
+
+  geolocation-not-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./ruleset/geolocation-not-cn.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
+    interval: 259200
+
+  google-ip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    path: ./ruleset/google-ip.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"
+    interval: 259200
+
+  netflix-ip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    path: ./ruleset/netflix-ip.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"
+    interval: 259200
+
+  telegram-ip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    path: ./ruleset/telegram-ip.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
+    interval: 259200
+
+  twitter-ip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    path: ./ruleset/twitter-ip.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/twitter.mrs"
+    interval: 259200
+
 rules:
-  - GEOIP,lan,DIRECT,no-resolve
+  - RULE-SET,private-ip,DIRECT,no-resolve
 
-  - DOMAIN-SUFFIX,wechat.com,DIRECT
-  - DOMAIN-SUFFIX,weixin.qq.com,DIRECT
-  - DOMAIN-SUFFIX,servicewechat.com,DIRECT
-  - DOMAIN-SUFFIX,weixin.com,DIRECT
-  - IP-ASN,45090,DIRECT,no-resolve
-  - IP-ASN,132203,DIRECT,no-resolve
-
-  - GEOSITE,apple-intelligence,proxy
   - DOMAIN-SUFFIX,smoot.apple.com,proxy
   - DOMAIN-SUFFIX,guzzoni.apple.com,proxy
   - DOMAIN-SUFFIX,apps.mzstatic.com,proxy
   - DOMAIN-SUFFIX,cp4.cloudflare.com,proxy
 
-  - GEOSITE,apple,DIRECT
+  - RULE-SET,anthropic,proxy
+  - RULE-SET,openai,proxy
+  - RULE-SET,perplexity,proxy
 
-  - GEOSITE,anthropic,proxy
-  - GEOSITE,openai,proxy
-  - GEOSITE,perplexity,proxy
+  - RULE-SET,notion,proxy
+  - RULE-SET,discord,proxy
+  - RULE-SET,github,proxy
+  - RULE-SET,twitter,proxy
+  - RULE-SET,tiktok,proxy
+  - RULE-SET,dropbox,proxy
+  - RULE-SET,youtube,proxy
+  - RULE-SET,google,proxy
+  - RULE-SET,telegram,proxy
+  - RULE-SET,netflix,proxy
+  - RULE-SET,bahamut,proxy
+  - RULE-SET,spotify,proxy
 
-  - GEOSITE,notion,proxy
-  - GEOSITE,discord,proxy
-  - GEOSITE,github,proxy
-  - GEOSITE,twitter,proxy
-  - GEOSITE,tiktok,proxy
-  - GEOSITE,dropbox,proxy
-  - GEOSITE,youtube,proxy
-  - GEOSITE,google,proxy
-  - GEOSITE,telegram,proxy
-  - GEOSITE,netflix,proxy
-  - GEOSITE,bahamut,proxy
-  - GEOSITE,spotify,proxy
+  - RULE-SET,geolocation-not-cn,proxy
 
-  - GEOSITE,bilibili,DIRECT
-  - GEOSITE,CN,DIRECT
-  - GEOSITE,geolocation-!cn,proxy
+  - RULE-SET,google-ip,proxy,no-resolve
+  - RULE-SET,netflix-ip,proxy,no-resolve
+  - RULE-SET,telegram-ip,proxy,no-resolve
+  - RULE-SET,twitter-ip,proxy,no-resolve
 
-  - GEOIP,google,proxy,no-resolve
-  - GEOIP,netflix,proxy,no-resolve
-  - GEOIP,telegram,proxy,no-resolve
-  - GEOIP,twitter,proxy,no-resolve
-  - GEOIP,CN,DIRECT,no-resolve
-
-  - MATCH,proxy
+  - MATCH,DIRECT
