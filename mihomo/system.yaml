@@ -1,27 +1,12 @@
-mixed-port: 7890
+﻿mixed-port: 7890
 allow-lan: false
 mode: rule
 log-level: info
 ipv6: false
 
-external-controller: 127.0.0.1:9090
-external-ui: ui
-external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
-
-geodata-mode: true
-geodata-loader: standard
-geo-auto-update: true
-geo-update-interval: 24
-
 tcp-concurrent: true
 unified-delay: true
 find-process-mode: off
-
-geox-url:
-  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
-  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
-  mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
-  asn: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
 
 profile:
   store-selected: true
@@ -35,7 +20,6 @@ tun:
 dns:
   enable: true
   ipv6: false
-  prefer-h3: false
   listen: 127.0.0.1:1053
   enhanced-mode: redir-host
 
@@ -65,30 +49,17 @@ proxies:
     server: 13105.cc
     port: 12345
     cipher: chacha20-ietf-poly1305
-    password: "请替换成新密码"
+    password: "REPLACE_WITH_SS_PASSWORD"
     udp: true
 
   - name: "trojan"
     type: trojan
     server: 13105.cc
     port: 443
-    password: "请替换成新密码"
+    password: "REPLACE_WITH_TROJAN_PASSWORD"
     udp: true
     client-fingerprint: chrome
     sni: 13105.cc
-    alpn:
-      - h2
-      - http/1.1
-    skip-cert-verify: true
-
-  - name: "anytls"
-    type: anytls
-    server: 13105.cc
-    port: 8443
-    password: "请替换成新密码"
-    client-fingerprint: chrome
-    udp: true
-    sni: "13105.cc"
     alpn:
       - h2
       - http/1.1
@@ -100,22 +71,78 @@ proxy-groups:
     proxies:
       - ss
       - trojan
-      - anytls
     url: "https://cp.cloudflare.com/generate_204"
     interval: 300
     tolerance: 50
     lazy: true
 
+rule-anchor:
+  ip: &ip
+    type: http
+    interval: 86400
+    behavior: ipcidr
+    format: mrs
+    proxy: DIRECT
+  domain: &domain
+    type: http
+    interval: 86400
+    behavior: domain
+    format: mrs
+    proxy: DIRECT
+
+rule-providers:
+  private_domain:
+    <<: *domain
+    path: ./private_domain.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"
+  private_ip:
+    <<: *ip
+    path: ./private_ip.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs"
+  openai:
+    <<: *domain
+    path: ./openai.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/openai.mrs"
+  anthropic:
+    <<: *domain
+    path: ./anthropic.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/anthropic.mrs"
+  perplexity:
+    <<: *domain
+    path: ./perplexity.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/perplexity.mrs"
+  notion:
+    <<: *domain
+    path: ./notion.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/notion.mrs"
+  github:
+    <<: *domain
+    path: ./github.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"
+  dropbox:
+    <<: *domain
+    path: ./dropbox.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/dropbox.mrs"
+  google:
+    <<: *domain
+    path: ./google.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"
+  geolocation_not_cn:
+    <<: *domain
+    path: ./geolocation-not-cn.mrs
+    url: "https://123456.929413105.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
+
 rules:
-  - GEOIP,lan,DIRECT,no-resolve
-  - GEOSITE,openai,proxy
-  - GEOSITE,anthropic,proxy
-  - GEOSITE,perplexity,proxy
-  - GEOSITE,notion,proxy
-  - GEOSITE,github,proxy
-  - GEOSITE,dropbox,proxy
-  - GEOSITE,google,proxy
-  - GEOSITE,CN,DIRECT
-  - GEOSITE,geolocation-!cn,proxy
-  - GEOIP,CN,DIRECT,no-resolve
-  - MATCH,proxy
+  - RULE-SET,private_domain,DIRECT
+  - RULE-SET,private_ip,DIRECT,no-resolve
+
+  - RULE-SET,openai,proxy
+  - RULE-SET,anthropic,proxy
+  - RULE-SET,perplexity,proxy
+  - RULE-SET,notion,proxy
+  - RULE-SET,github,proxy
+  - RULE-SET,dropbox,proxy
+  - RULE-SET,google,proxy
+  - RULE-SET,geolocation_not_cn,proxy
+
+  - MATCH,DIRECT
