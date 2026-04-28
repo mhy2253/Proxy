@@ -25,6 +25,24 @@ for cmd in uname tar sudo systemctl mktemp find grep sed; do
   require_cmd "$cmd"
 done
 
+if ! command -v xz >/dev/null 2>&1; then
+  echo "==> xz not found, installing xz-utils..."
+  if command -v apt-get >/dev/null 2>&1; then
+    sudo apt-get install -y xz-utils
+  elif command -v yum >/dev/null 2>&1; then
+    sudo yum install -y xz
+  elif command -v dnf >/dev/null 2>&1; then
+    sudo dnf install -y xz
+  elif command -v pacman >/dev/null 2>&1; then
+    sudo pacman -Sy --noconfirm xz
+  elif command -v apk >/dev/null 2>&1; then
+    sudo apk add xz
+  else
+    echo "Error: Cannot install xz-utils, no supported package manager found."
+    exit 1
+  fi
+fi
+
 if command -v curl >/dev/null 2>&1; then
   DOWNLOADER="curl"
 elif command -v wget >/dev/null 2>&1; then
@@ -57,7 +75,6 @@ esac
 
 echo "==> Fetching latest release version from GitHub API"
 API_URL="https://api.github.com/repos/${REPO}/releases/latest"
-
 if [[ "${DOWNLOADER}" == "curl" ]]; then
   VERSION="$(curl -fsSL "${API_URL}" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')"
 else
@@ -80,7 +97,6 @@ echo "==> Architecture: ${ARCH} -> ${TARGET}"
 echo "==> Download URL: ${DOWNLOAD_URL}"
 
 cd "${WORKDIR}"
-
 echo "==> Downloading package"
 if [[ "${DOWNLOADER}" == "curl" ]]; then
   curl -fL "${DOWNLOAD_URL}" -o "${ARCHIVE}"
@@ -125,7 +141,6 @@ sudo tee "${CONFIG_FILE}" > /dev/null <<EOF
   "mode": "${MODE}"
 }
 EOF
-
 sudo chmod 600 "${CONFIG_FILE}"
 
 echo "==> Writing systemd service"
@@ -156,13 +171,16 @@ echo "==> Starting service"
 sudo systemctl restart ssserver
 
 echo
-echo "Deployment completed."
-echo "Version: ${VERSION}"
-echo "Architecture: ${TARGET}"
-echo "Config file: ${CONFIG_FILE}"
-echo "Server port: ${SERVER_PORT}"
-echo "Method: ${METHOD}"
-echo "Generated password: ${PASSWORD}"
+echo "==============================="
+echo " Deployment completed."
+echo "==============================="
+echo " Version:   ${VERSION}"
+echo " Arch:      ${TARGET}"
+echo " Config:    ${CONFIG_FILE}"
+echo " Port:      ${SERVER_PORT}"
+echo " Method:    ${METHOD}"
+echo " Password:  ${PASSWORD}"
+echo "==============================="
 echo
 echo "Service status:"
 systemctl status ssserver --no-pager
