@@ -1,6 +1,6 @@
 # =========================
-# Surge Direct Rules (Optimized)
-# Clean structure: domain-first, no UA/IP dependency
+# Surge Direct Rules (Optimized v3)
+# Clean structure: domain-first, stable rules only
 # =========================
 
 # ===== CN GEO (Primary Direct) =====
@@ -31,22 +31,23 @@ DOMAIN-SUFFIX,acgvideo.com
 DOMAIN-SUFFIX,b23.tv
 
 # =========================
-# Tencent / WeChat Ecosystem
+# Tencent / WeChat Ecosystem (Cleaned)
 # =========================
 DOMAIN-SUFFIX,wechat.com
 DOMAIN-SUFFIX,weixin.qq.com
+
 DOMAIN-SUFFIX,qq.com
 DOMAIN-SUFFIX,qqmail.com
+
 DOMAIN-SUFFIX,myapp.com
 DOMAIN-SUFFIX,myqcloud.com
+
 DOMAIN-SUFFIX,gtimg.com
 DOMAIN-SUFFIX,qpic.cn
-DOMAIN-SUFFIX,weixin.com
-DOMAIN-SUFFIX,weixin.qq.com
-DOMAIN-SUFFIX,tenpay.com
-DOMAIN-SUFFIX,soso.com
+
 DOMAIN-SUFFIX,tencent.com
 DOMAIN-SUFFIX,tencent-cloud.net
+DOMAIN-SUFFIX,soso.com
 
 # =========================
 # Cloud / Storage / Download
@@ -70,7 +71,7 @@ DOMAIN-SUFFIX,dingtalk.cn
 
 # =========================
 # Notes:
-# - Removed USER-AGENT rules (unstable)
-# - Removed IP-CIDR rules (CDN volatility)
-# - Use GEOIP,CN for baseline routing
-# =========================
+# - Removed duplicated Tencent domains
+# - Removed redundant weixin/wechat overlaps
+# - Kept only stable DOMAIN-SUFFIX rules
+# - GEOIP,CN remains baseline routing
