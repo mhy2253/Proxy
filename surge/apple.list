@@ -1,5 +1,5 @@
-# 规则名称: Apple (Optimized v2)
-# 设计原则: domain-first, no IP-CIDR dependency, minimal & stable
+# 规则名称: Apple (Optimized v3 - merged MetaCubeX geo-lite)
+# 设计原则: domain-first + suffix扩展 + 保持Surge性能稳定
 
 # =========================
 # Core Apple Services
@@ -10,6 +10,15 @@ DOMAIN-SUFFIX,icloud.com
 DOMAIN-SUFFIX,icloud.com.cn
 DOMAIN-SUFFIX,itunes.com
 DOMAIN-SUFFIX,appstore.com
+DOMAIN-SUFFIX,apple.news
+
+# =========================
+# Apple iCloud / Media / System
+# =========================
+DOMAIN-SUFFIX,icloud-content.com
+DOMAIN-SUFFIX,me.com
+DOMAIN-SUFFIX,mzstatic.com
+DOMAIN-SUFFIX,crashlytics.com
 
 # =========================
 # Apple Infrastructure / CDN
@@ -20,19 +29,41 @@ DOMAIN-SUFFIX,cdn-apple.com
 DOMAIN-SUFFIX,apple-dns.net
 DOMAIN-SUFFIX,apple-mapkit.com
 DOMAIN-SUFFIX,apple-cloudkit.com
+DOMAIN-SUFFIX,apple.com.edgesuite.net
+DOMAIN-SUFFIX,edgekey.net
+DOMAIN-SUFFIX,akamaized.net
 
 # =========================
-# iCloud / Media / Services
+# Apple Services Expansion (MetaCubeX geo-lite)
 # =========================
-DOMAIN-SUFFIX,icloud-content.com
-DOMAIN-SUFFIX,me.com
-DOMAIN-SUFFIX,mzstatic.com
-DOMAIN-SUFFIX,apple.news
-DOMAIN-SUFFIX,crashlytics.com
+DOMAIN-SUFFIX,appleid.com
+DOMAIN-SUFFIX,appleaccount.net
+DOMAIN-SUFFIX,applewallet.com
+DOMAIN-SUFFIX,applepay.com
+DOMAIN-SUFFIX,applemusic.com
+DOMAIN-SUFFIX,appletv.com
+DOMAIN-SUFFIX,applepodcasts.com
+DOMAIN-SUFFIX,applecare.com
+DOMAIN-SUFFIX,appleone.apple
+DOMAIN-SUFFIX,apple.comscoreresearch.com
+
+# Apple Developer / Services
+DOMAIN-SUFFIX,developer.apple.com
+DOMAIN-SUFFIX,lookup-api.apple.com
+DOMAIN-SUFFIX,apple-cloudkit.com
+DOMAIN-SUFFIX,apple-mapkit.com
+
+# Apple Regional Domains
+DOMAIN-SUFFIX,apple.cn
+DOMAIN-SUFFIX,apple.com.cn
+DOMAIN-SUFFIX,apple.co.uk
+DOMAIN-SUFFIX,apple.co.jp
+DOMAIN-SUFFIX,apple.co.kr
+DOMAIN-SUFFIX,apple.com.tw
+DOMAIN-SUFFIX,apple.com.hk
 
 # =========================
 # Notes
 # =========================
-# - Fixed invalid rule: apple.comscoreresearch.com (removed)
-# - Removed IP-CIDR rules due to CDN volatility
-# - Kept only stable DOMAIN-SUFFIX entries
+# merged from MetaCubeX geo-lite apple.json
+# keep only stable + high-value domains for Surge performance
