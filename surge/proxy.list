@@ -149,6 +149,7 @@ DOMAIN-SUFFIX,2mdn.net
 DOMAIN-SUFFIX,app-measurement.net
 DOMAIN-SUFFIX,g.co
 DOMAIN-SUFFIX,ggpht.com
+DOMAIN-SUFFIX,ggpht.cn
 DOMAIN-SUFFIX,goo.gl
 DOMAIN-SUFFIX,googleapis.cn
 DOMAIN-SUFFIX,googleapis.com
@@ -163,12 +164,15 @@ DOMAIN-SUFFIX,gvt3.com
 DOMAIN-SUFFIX,xn--ngstr-lra8j.com
 
 # =========================
-# YouTube
+# YouTube (expanded)
 # =========================
 DOMAIN,youtubei.googleapis.com
 DOMAIN,yt3.ggpht.com
 DOMAIN,music.youtube.com
 DOMAIN-SUFFIX,googlevideo.com
+DOMAIN-SUFFIX,video.google.com
+DOMAIN-SUFFIX,wide-youtube.l.google.com
+DOMAIN-SUFFIX,youtube-ui.l.google.com
 DOMAIN-SUFFIX,withyoutube.com
 DOMAIN-SUFFIX,youtu.be
 DOMAIN-SUFFIX,youtube-nocookie.com
@@ -176,6 +180,16 @@ DOMAIN-SUFFIX,youtube.com
 DOMAIN-SUFFIX,youtubeeducation.com
 DOMAIN-SUFFIX,youtubegaming.com
 DOMAIN-SUFFIX,youtubekids.com
+DOMAIN-SUFFIX,youtubefanfest.com
+DOMAIN-SUFFIX,youtubego.com
+DOMAIN-SUFFIX,youtubego.co.id
+DOMAIN-SUFFIX,youtubego.co.in
+DOMAIN-SUFFIX,youtubego.com.br
+DOMAIN-SUFFIX,youtubego.id
+DOMAIN-SUFFIX,youtubego.in
+DOMAIN-SUFFIX,youtubeembeddedplayer.googleapis.com
+DOMAIN-SUFFIX,youtube.googleapis.com
+DOMAIN-SUFFIX,youtubemobilesupport.com
 DOMAIN-SUFFIX,yt.be
 DOMAIN-SUFFIX,ytimg.com
 
