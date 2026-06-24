@@ -84,7 +84,6 @@ DOMAIN-SUFFIX,watchanimeattheoffice.com
 # =========================
 # GitHub
 # =========================
-DOMAIN-KEYWORD,github
 DOMAIN-SUFFIX,github.com
 DOMAIN-SUFFIX,github.io
 DOMAIN-SUFFIX,githubapp.com
@@ -205,13 +204,10 @@ DOMAIN-SUFFIX,telesco.pe
 DOMAIN-SUFFIX,tg.dev
 DOMAIN-SUFFIX,tx.me
 DOMAIN-SUFFIX,usercontent.dev
-DOMAIN-KEYWORD,nicegram
 
 # =========================
 # Spotify
 # =========================
-DOMAIN-KEYWORD,-spotify-
-DOMAIN-KEYWORD,spotify.com
 DOMAIN-SUFFIX,pscdn.co
 DOMAIN-SUFFIX,scdn.co
 DOMAIN-SUFFIX,spoti.fi
