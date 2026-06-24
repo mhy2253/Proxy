@@ -1,10 +1,7 @@
 # =========================
-# Surge Direct Rules (Optimized v3)
-# Clean structure: domain-first, stable rules only
+# Surge Direct Rules (Optimized v4)
+# Deterministic ordering: domain-first, GEOIP last
 # =========================
-
-# ===== CN GEO (Primary Direct) =====
-GEOIP,CN,DIRECT
 
 # =========================
 # Payment / E-Commerce
@@ -31,12 +28,12 @@ DOMAIN-SUFFIX,acgvideo.com
 DOMAIN-SUFFIX,b23.tv
 
 # =========================
-# Tencent / WeChat Ecosystem (Cleaned)
+# Tencent / WeChat Ecosystem (Tightened Scope)
 # =========================
 DOMAIN-SUFFIX,wechat.com
 DOMAIN-SUFFIX,weixin.qq.com
+DOMAIN-SUFFIX,weixin.com
 
-DOMAIN-SUFFIX,qq.com
 DOMAIN-SUFFIX,qqmail.com
 
 DOMAIN-SUFFIX,myapp.com
@@ -48,6 +45,9 @@ DOMAIN-SUFFIX,qpic.cn
 DOMAIN-SUFFIX,tencent.com
 DOMAIN-SUFFIX,tencent-cloud.net
 DOMAIN-SUFFIX,soso.com
+
+# NOTE:
+# qq.com intentionally removed due to over-broad coverage risk
 
 # =========================
 # Cloud / Storage / Download
@@ -70,8 +70,14 @@ DOMAIN-SUFFIX,dingtalk.com
 DOMAIN-SUFFIX,dingtalk.cn
 
 # =========================
-# Notes:
-# - Removed duplicated Tencent domains
-# - Removed redundant weixin/wechat overlaps
-# - Kept only stable DOMAIN-SUFFIX rules
-# - GEOIP,CN remains baseline routing
+# CN GEO Fallback (must be last)
+# =========================
+GEOIP,CN,DIRECT
+
+# =========================
+# Design Notes
+# - DOMAIN rules take priority over GEOIP via ordering
+# - GEOIP is used only as fallback
+# - Removed overly broad qq.com scope for safety
+# - Maintained minimal stable domain set
+# =========================
