@@ -16,7 +16,6 @@ DOMAIN-SUFFIX,sora.com
 DOMAIN-SUFFIX,chatgpt.livekit.cloud
 DOMAIN-SUFFIX,host.livekit.cloud
 DOMAIN-SUFFIX,turn.livekit.cloud
-DOMAIN,api.github.com
 DOMAIN,browser-intake-datadoghq.com
 DOMAIN,static.cloudflareinsights.com
 DOMAIN-SUFFIX,algolia.net
@@ -89,7 +88,6 @@ DOMAIN-SUFFIX,github.io
 DOMAIN-SUFFIX,githubapp.com
 DOMAIN-SUFFIX,githubassets.com
 DOMAIN-SUFFIX,githubusercontent.com
-DOMAIN,api.github.com
 
 # =========================
 # Twitter / X
@@ -166,9 +164,6 @@ DOMAIN-SUFFIX,xn--ngstr-lra8j.com
 # =========================
 # YouTube (expanded)
 # =========================
-DOMAIN,youtubei.googleapis.com
-DOMAIN,yt3.ggpht.com
-DOMAIN,music.youtube.com
 DOMAIN-SUFFIX,googlevideo.com
 DOMAIN-SUFFIX,video.google.com
 DOMAIN-SUFFIX,wide-youtube.l.google.com
@@ -187,8 +182,6 @@ DOMAIN-SUFFIX,youtubego.co.in
 DOMAIN-SUFFIX,youtubego.com.br
 DOMAIN-SUFFIX,youtubego.id
 DOMAIN-SUFFIX,youtubego.in
-DOMAIN-SUFFIX,youtubeembeddedplayer.googleapis.com
-DOMAIN-SUFFIX,youtube.googleapis.com
 DOMAIN-SUFFIX,youtubemobilesupport.com
 DOMAIN-SUFFIX,yt.be
 DOMAIN-SUFFIX,ytimg.com
