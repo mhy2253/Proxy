@@ -1,0 +1,300 @@
+{
+  "log": {
+    "level": "info",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "local",
+        "type": "local"
+      },
+      {
+        "tag": "default",
+        "type": "tls",
+        "server": "223.5.5.5",
+        "server_port": 853
+      },
+      {
+        "tag": "fake-ip",
+        "type": "fakeip",
+        "inet4_range": "198.18.0.0/16",
+        "inet6_range": "fc00::/18"
+      }
+    ],
+    "rules": [
+      {
+        "rule_set": [
+          "geosite-cn"
+        ],
+        "action": "route",
+        "server": "local"
+      },
+      {
+        "domain_suffix": [
+          "wechat.com",
+          "weixin.qq.com",
+          "servicewechat.com",
+          "weixin.com"
+        ],
+        "action": "route",
+        "server": "local"
+      },
+      {
+        "rule_set": [
+          "geosite-bilibili"
+        ],
+        "action": "route",
+        "server": "local"
+      },
+      {
+        "query_type": [
+          "HTTPS",
+          "SVCB"
+        ],
+        "action": "reject"
+      },
+      {
+        "rule_set": [
+          "geosite-geolocation-!cn"
+        ],
+        "action": "route",
+        "server": "fake-ip"
+      }
+    ],
+    "independent_cache": true,
+    "final": "default"
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "address": [
+        "172.19.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
+      "mtu": 1400,
+      "auto_route": true,
+      "stack": "mixed"
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "trojan",
+      "tag": "cloudflare",
+      "server": "REPLACE_WITH_SERVER_IP_OR_DOMAIN",
+      "server_port": 443,
+      "password": "REPLACE_WITH_TROJAN_PASSWORD",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_TLS_SERVER_NAME",
+        "insecure": true
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/trojan",
+        "headers": {
+          "Host": "REPLACE_WITH_WS_HOST"
+        }
+      },
+      "tcp_fast_open": true
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    }
+  ],
+  "route": {
+    "auto_detect_interface": true,
+    "default_domain_resolver": "default",
+    "rules": [
+      {
+        "action": "sniff"
+      },
+      {
+        "protocol": "dns",
+        "action": "hijack-dns"
+      },
+      {
+        "ip_is_private": true,
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "domain_suffix": [
+          "wechat.com",
+          "weixin.qq.com",
+          "servicewechat.com",
+          "weixin.com"
+        ],
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": [
+          "geosite-anthropic",
+          "geosite-openai",
+          "geosite-discord",
+          "geosite-github",
+          "geosite-twitter",
+          "geosite-tiktok",
+          "geosite-google",
+          "geosite-telegram",
+          "geosite-spotify"
+        ],
+        "action": "route",
+        "outbound": "cloudflare"
+      },
+      {
+        "rule_set": "geosite-bilibili",
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": "geosite-cn",
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": "geosite-geolocation-!cn",
+        "action": "route",
+        "outbound": "cloudflare"
+      },
+      {
+        "rule_set": [
+          "geoip-google",
+          "geoip-telegram",
+          "geoip-twitter"
+        ],
+        "action": "route",
+        "outbound": "cloudflare"
+      },
+      {
+        "rule_set": "geoip-cn",
+        "action": "route",
+        "outbound": "direct"
+      }
+    ],
+    "rule_set": [
+      {
+        "tag": "geosite-anthropic",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/anthropic.srs",
+        "download_detour": "cloudflare"
+      },
+      {
+        "tag": "geosite-openai",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/openai.srs",
+        "download_detour": "cloudflare"
+      },
+      {
+        "tag": "geosite-discord",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/discord.srs",
+        "download_detour": "cloudflare"
+      },
+      {
+        "tag": "geosite-github",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/github.srs",
+        "download_detour": "cloudflare"
+      },
+      {
+        "tag": "geosite-twitter",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/twitter.srs",
+        "download_detour": "cloudflare"
+      },
+      {
+        "tag": "geosite-tiktok",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/tiktok.srs",
+        "download_detour": "cloudflare"
+      },
+      {
+        "tag": "geosite-google",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/google.srs",
+        "download_detour": "cloudflare"
+      },
+      {
+        "tag": "geosite-telegram",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/telegram.srs",
+        "download_detour": "cloudflare"
+      },
+      {
+        "tag": "geosite-spotify",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/spotify.srs",
+        "download_detour": "cloudflare"
+      },
+      {
+        "tag": "geosite-bilibili",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/bilibili.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/cn.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-geolocation-!cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/geolocation-!cn.srs",
+        "download_detour": "cloudflare"
+      },
+      {
+        "tag": "geoip-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cn.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geoip-google",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/google.srs",
+        "download_detour": "cloudflare"
+      },
+      {
+        "tag": "geoip-telegram",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/telegram.srs",
+        "download_detour": "cloudflare"
+      },
+      {
+        "tag": "geoip-twitter",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/twitter.srs",
+        "download_detour": "cloudflare"
+      }
+    ],
+    "final": "cloudflare"
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "store_fakeip": true
+    }
+  }
+}
