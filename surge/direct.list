@@ -1,5 +1,5 @@
 # =========================
-# Surge Direct Rules (Curated)
+# Surge Direct Rules (Curated v2)
 # Sources: mhy2253/Proxy and MetaCubeX/meta-rules-dat
 # Generated: 2026-06-28
 # Ordering: specific domain rules first; GEOIP fallback last
@@ -90,7 +90,7 @@ DOMAIN,upos-hz-mirrorakam.akamaized.net
 DOMAIN-SUFFIX,yo9.com
 
 # =========================
-# Alibaba Ecosystem (ads and telemetry excluded)
+# Alibaba Ecosystem (Core / Ads & Telemetry Excluded)
 # =========================
 DOMAIN-SUFFIX,11222.cn
 DOMAIN-SUFFIX,1688.com
@@ -105,23 +105,15 @@ DOMAIN-SUFFIX,a-map.cn
 DOMAIN-SUFFIX,a-map.co
 DOMAIN-SUFFIX,a-map.link
 DOMAIN-SUFFIX,a-map.vip
-DOMAIN-SUFFIX,a.alimama.cn
 DOMAIN,account-cn.alibabacloud.com
 DOMAIN-SUFFIX,acjs.aliyun.com
 DOMAIN-SUFFIX,acloudrender.com
-DOMAIN-SUFFIX,adashbc.m.taobao.com
-DOMAIN-SUFFIX,adashbc.ut.taobao.com
-DOMAIN-SUFFIX,adashx4ae.ut.taobao.com
-DOMAIN-SUFFIX,adashx4yt.m.taobao.com
-DOMAIN-SUFFIX,adashxgc.ut.taobao.com
-DOMAIN-SUFFIX,adsh.m.taobao.com
 DOMAIN-SUFFIX,ae-rus.net
 DOMAIN-SUFFIX,aedns.ru
 DOMAIN-SUFFIX,aeplatform.ru
 DOMAIN-SUFFIX,aestatic.net
 DOMAIN-SUFFIX,ali-health.com
 DOMAIN-SUFFIX,aliapp.org
-DOMAIN-SUFFIX,alibaba
 DOMAIN-SUFFIX,alibaba-inc.com
 DOMAIN-SUFFIX,alibaba.com
 DOMAIN-SUFFIX,alibabacapital.com
@@ -163,21 +155,16 @@ DOMAIN-SUFFIX,aliimg.com
 DOMAIN-SUFFIX,alikmd.com
 DOMAIN-SUFFIX,alikunlun.com
 DOMAIN-SUFFIX,alikunlun.net
-DOMAIN-SUFFIX,alimama.alicdn.com
-DOMAIN-SUFFIX,alimama.cn
-DOMAIN-SUFFIX,alimama.com
 DOMAIN-SUFFIX,alimebot.com
 DOMAIN-SUFFIX,alimei.com
 DOMAIN-SUFFIX,alimmdn.com
 DOMAIN-SUFFIX,alios.cn
-DOMAIN-SUFFIX,alipay
 DOMAIN-SUFFIX,alipay-eco.com
 DOMAIN-SUFFIX,alipay.cn
 DOMAIN-SUFFIX,alipay.com
 DOMAIN-SUFFIX,alipay.com.cn
 DOMAIN-SUFFIX,alipay.hk
 DOMAIN-SUFFIX,alipaydns.com
-DOMAIN-SUFFIX,alipaylog.com
 DOMAIN-SUFFIX,alipaymo.com
 DOMAIN-SUFFIX,alipayobjects.com
 DOMAIN-SUFFIX,alipayplus.com
@@ -215,7 +202,6 @@ DOMAIN,api.alibabacloud.com
 DOMAIN-SUFFIX,asczwa.com
 DOMAIN-SUFFIX,asczxcefsv.com
 DOMAIN-SUFFIX,asmlink.cn
-DOMAIN-SUFFIX,atanx2.alicdn.com
 DOMAIN-SUFFIX,atatech.org
 DOMAIN-SUFFIX,autonavi.com
 DOMAIN-SUFFIX,b2byao.com
@@ -232,7 +218,6 @@ DOMAIN-SUFFIX,cloudeagle.cn
 DOMAIN-SUFFIX,cn-hangzhou.aliyuncs.com
 DOMAIN-SUFFIX,cn-shanghai.aliyuncs.com
 DOMAIN,cn.alibabacloud.com
-DOMAIN-SUFFIX,cnzz.com
 DOMAIN-SUFFIX,cueme.cn
 DOMAIN-SUFFIX,damai.cn
 DOMAIN-SUFFIX,danniao.com
@@ -253,7 +238,6 @@ DOMAIN-SUFFIX,dongting.com
 DOMAIN-SUFFIX,doservice.com
 DOMAIN-SUFFIX,dratio.com
 DOMAIN-SUFFIX,duanqu.com
-DOMAIN-SUFFIX,e.stat.ykimg.com
 DOMAIN-SUFFIX,ele.me
 DOMAIN-SUFFIX,ele.to
 DOMAIN-SUFFIX,eleme.cn
@@ -272,12 +256,10 @@ DOMAIN-SUFFIX,fliggy.hk
 DOMAIN-SUFFIX,freshhema.com
 DOMAIN-SUFFIX,freshippo.com
 DOMAIN-SUFFIX,fund123.cn
-DOMAIN-SUFFIX,g.click.taobao.com
 DOMAIN-SUFFIX,gaode.com
 DOMAIN-SUFFIX,gongyi.xin
 DOMAIN-SUFFIX,goofish.com
 DOMAIN-SUFFIX,guoguo-app.com
-DOMAIN-SUFFIX,h-adashx4yt.ut.taobao.com
 DOMAIN-SUFFIX,hemamax.com
 DOMAIN-SUFFIX,hemaos.com
 DOMAIN-SUFFIX,hemashare.cn
@@ -397,17 +379,13 @@ DOMAIN-SUFFIX,shuqi.com
 DOMAIN-SUFFIX,shuqiapi.com
 DOMAIN-SUFFIX,shuqiread.com
 DOMAIN-SUFFIX,shuqireader.com
-DOMAIN-SUFFIX,shuqistat.com
 DOMAIN-SUFFIX,shyhhema.com
 DOMAIN-SUFFIX,sm.cn
 DOMAIN-SUFFIX,soku.com
 DOMAIN-SUFFIX,sparenode.com
 DOMAIN-SUFFIX,sqreader.com
-DOMAIN-SUFFIX,stat.youku.com
 DOMAIN,status.alibabacloud.com
 DOMAIN-SUFFIX,supet.com
-DOMAIN-SUFFIX,tanx.com
-DOMAIN-SUFFIX,taobao
 DOMAIN-SUFFIX,taobao.com
 DOMAIN-SUFFIX,taobao.net
 DOMAIN-SUFFIX,taobao.org
@@ -417,12 +395,12 @@ DOMAIN-SUFFIX,taopiaopiao.com
 DOMAIN-SUFFIX,tb.cn
 DOMAIN-SUFFIX,tbcache.com
 DOMAIN-SUFFIX,tbcdn.cn
+DOMAIN-SUFFIX,tbcdn.com
 DOMAIN-SUFFIX,tburl.in
 DOMAIN-SUFFIX,tce.alicdn.com
 DOMAIN-SUFFIX,teambition.com
 DOMAIN-SUFFIX,teambition.net
 DOMAIN-SUFFIX,teambitionapis.com
-DOMAIN-SUFFIX,tmall
 DOMAIN-SUFFIX,tmall.com
 DOMAIN-SUFFIX,tmall.ru
 DOMAIN-SUFFIX,tmalltv.com
@@ -435,9 +413,6 @@ DOMAIN-SUFFIX,uc123.com
 DOMAIN-SUFFIX,ucfly.com
 DOMAIN-SUFFIX,ucweb.com
 DOMAIN-SUFFIX,uczzd.cn
-DOMAIN-SUFFIX,umengcloud.com
-DOMAIN-SUFFIX,umsns.com
-DOMAIN-SUFFIX,w.cnzz.com
 DOMAIN-SUFFIX,wandoujia.com
 DOMAIN-SUFFIX,wdjimg.com
 DOMAIN-SUFFIX,whalecloud.com
@@ -455,25 +430,16 @@ DOMAIN-SUFFIX,yowhale.com
 DOMAIN-SUFFIX,yunos-inc.com
 DOMAIN-SUFFIX,yunos.com
 DOMAIN-SUFFIX,yushanfang.com
-DOMAIN-SUFFIX,z.gds.cnzz.com
 DOMAIN-SUFFIX,zhisheng.com
 DOMAIN-SUFFIX,zimgs.cn
 DOMAIN-SUFFIX,ztna-dingtalk.com
 DOMAIN-SUFFIX,zuodao.com
 
 # =========================
-# Existing Direct Rules (deduplicated)
-# =========================
-# =========================
-# Payment / E-Commerce
-# =========================
-DOMAIN-SUFFIX,tbcdn.com
-DOMAIN-SUFFIX,tenpay.com
-DOMAIN-SUFFIX,wechatpay.com
-
-# =========================
 # Tencent / WeChat Ecosystem
 # =========================
+DOMAIN-SUFFIX,tenpay.com
+DOMAIN-SUFFIX,wechatpay.com
 DOMAIN-SUFFIX,wechat.com
 DOMAIN-SUFFIX,weixin.qq.com
 DOMAIN-SUFFIX,weixin.com
@@ -487,7 +453,7 @@ DOMAIN-SUFFIX,tencent-cloud.net
 DOMAIN-SUFFIX,soso.com
 
 # =========================
-# Cloud / Storage / Download
+# 123pan
 # =========================
 DOMAIN-SUFFIX,123pan.com
 
@@ -508,7 +474,8 @@ GEOIP,CN,DIRECT
 # =========================
 # - MetaCubeX '+.domain' entries were converted to Surge DOMAIN-SUFFIX rules.
 # - Exact host entries were converted to Surge DOMAIN rules.
-# - 69 Alibaba advertising, analytics, logging, or telemetry rules were excluded.
+# - Obvious Alibaba advertising, analytics, logging, and telemetry rules were removed from DIRECT.
+# - Over-broad bare brand suffixes such as alibaba/alipay/taobao/tmall were removed.
+# - Existing stable direct rules from mhy2253/Proxy were merged into formal sections.
 # - Cross-source duplicates were removed while preserving category priority.
-# - Existing stable direct rules from mhy2253/Proxy were merged and deduplicated.
 # - GEOIP,CN,DIRECT remains the final fallback rule.
