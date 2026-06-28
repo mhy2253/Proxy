@@ -1,0 +1,3 @@
+# Local sing-box configs with real node credentials
+sing-box/config.local.json
+sing-box/*.local.json
