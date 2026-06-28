@@ -38,18 +38,36 @@
         "rule_set": "geosite-cn",
         "action": "route",
         "server": "local"
+      },
+      {
+        "action": "evaluate",
+        "server": "cf"
+      },
+      {
+        "match_response": true,
+        "ip_is_private": true,
+        "action": "route",
+        "server": "local"
+      },
+      {
+        "action": "respond"
       }
     ],
-    "final": "cf",
-    "reverse_mapping": true
+    "reverse_mapping": true,
+    "final": "cf"
   },
   "inbounds": [
     {
-      "type": "mixed",
-      "tag": "mixed-in",
-      "listen": "127.0.0.1",
-      "listen_port": 7890,
-      "set_system_proxy": true
+      "type": "tun",
+      "tag": "tun-in",
+      "interface_name": "singbox-tun",
+      "address": [
+        "172.19.0.1/30"
+      ],
+      "mtu": 1500,
+      "auto_route": true,
+      "strict_route": true,
+      "stack": "system"
     }
   ],
   "outbounds": [
@@ -79,12 +97,28 @@
     }
   ],
   "route": {
-    "default_domain_resolver": "local",
     "auto_detect_interface": true,
+    "default_domain_resolver": "local",
+    "final": "cloudflare",
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "geoip-cn",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cn.srs",
+        "download_detour": "direct"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-cn",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/cn.srs",
+        "download_detour": "direct"
+      }
+    ],
     "rules": [
       {
-        "action": "sniff",
-        "timeout": "1s"
+        "action": "sniff"
       },
       {
         "protocol": "dns",
@@ -115,28 +149,12 @@
         "action": "route",
         "outbound": "direct"
       }
-    ],
-    "rule_set": [
-      {
-        "tag": "geosite-cn",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/cn.srs",
-        "download_detour": "direct"
-      },
-      {
-        "tag": "geoip-cn",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cn.srs",
-        "download_detour": "direct"
-      }
-    ],
-    "final": "cloudflare"
+    ]
   },
   "experimental": {
     "cache_file": {
       "enabled": true,
+      "path": "cache.db",
       "store_dns": true
     }
   }
