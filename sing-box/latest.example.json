@@ -1,0 +1,143 @@
+{
+  "log": {
+    "level": "info",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "local",
+        "type": "local"
+      },
+      {
+        "tag": "cf",
+        "type": "https",
+        "server": "1.1.1.1",
+        "server_port": 443,
+        "path": "/dns-query",
+        "domain_resolver": "local",
+        "detour": "cloudflare",
+        "tls": {
+          "enabled": true,
+          "server_name": "cloudflare-dns.com"
+        }
+      }
+    ],
+    "rules": [
+      {
+        "domain_suffix": [
+          "local",
+          "lan",
+          "home.arpa",
+          "localdomain"
+        ],
+        "action": "route",
+        "server": "local"
+      },
+      {
+        "rule_set": "geosite-cn",
+        "action": "route",
+        "server": "local"
+      }
+    ],
+    "final": "cf",
+    "reverse_mapping": true
+  },
+  "inbounds": [
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "127.0.0.1",
+      "listen_port": 7890,
+      "set_system_proxy": true
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "trojan",
+      "tag": "cloudflare",
+      "server": "REPLACE_WITH_SERVER_IP_OR_DOMAIN",
+      "server_port": 443,
+      "password": "REPLACE_WITH_TROJAN_PASSWORD",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_TLS_SERVER_NAME",
+        "insecure": true
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/trojan",
+        "headers": {
+          "Host": "REPLACE_WITH_WS_HOST"
+        }
+      },
+      "tcp_fast_open": true
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    }
+  ],
+  "route": {
+    "default_domain_resolver": "local",
+    "auto_detect_interface": true,
+    "rules": [
+      {
+        "action": "sniff",
+        "timeout": "1s"
+      },
+      {
+        "protocol": "dns",
+        "action": "hijack-dns"
+      },
+      {
+        "ip_is_private": true,
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "domain_suffix": [
+          "local",
+          "lan",
+          "home.arpa",
+          "localdomain"
+        ],
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": "geosite-cn",
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": "geoip-cn",
+        "action": "route",
+        "outbound": "direct"
+      }
+    ],
+    "rule_set": [
+      {
+        "tag": "geosite-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/cn.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geoip-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cn.srs",
+        "download_detour": "direct"
+      }
+    ],
+    "final": "cloudflare"
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "store_dns": true
+    }
+  }
+}
